@@ -3,15 +3,14 @@ package controllers;
 import datastructure.InHousePart;
 import datastructure.Inventory;
 import datastructure.Part;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -73,6 +72,7 @@ public class MainWindowController
         partInvTableColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partPriceTableColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partTableView.setItems(Inventory.getAllParts());
+        refreshPartTable();
     }
 
     @FXML
@@ -93,7 +93,17 @@ public class MainWindowController
 
     @FXML
     public void deletePartButtonListener() {
+        Part selectedPart = partTableView.getSelectionModel().getSelectedItem();
+        if (selectedPart == null) {
+            return;
+        }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this part?", ButtonType.YES, ButtonType.CANCEL);
+        alert.showAndWait();
 
+        if (alert.getResult() == ButtonType.YES) {
+            Inventory.deletePart(selectedPart);
+            refreshPartTable();
+        }
     }
 
     @FXML
@@ -113,6 +123,10 @@ public class MainWindowController
 
     @FXML
     public void exitButtonListener() {
+        Platform.exit();
+    }
 
+    public void refreshPartTable() {
+        partTableView.refresh();
     }
 }

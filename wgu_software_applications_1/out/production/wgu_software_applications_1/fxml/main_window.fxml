@@ -21,7 +21,7 @@
       <TextField layoutX="254.0" layoutY="65.0" promptText="Search by Part ID or Name" />
       <Button fx:id="addPartButton" layoutX="216.0" layoutY="314.0" mnemonicParsing="false" onAction="#addPartButtonListener" text="Add" />
       <Button fx:id="modifyPartButton" layoutX="283.0" layoutY="315.0" mnemonicParsing="false" onAction="#modifyPartButtonListener" text="Modify" />
-      <Button layoutX="361.0" layoutY="315.0" mnemonicParsing="false" text="Delete" />
+      <Button layoutX="361.0" layoutY="315.0" mnemonicParsing="false" onAction="#deletePartButtonListener" text="Delete" />
       <Label layoutX="40.0" layoutY="70.0" text="Parts" />
       <TableView layoutX="484.0" layoutY="106.0" prefHeight="200.0" prefWidth="376.0">
          <columns>
@@ -36,7 +36,7 @@
       <Button layoutX="727.0" layoutY="318.0" mnemonicParsing="false" text="Modify" />
       <Button layoutX="805.0" layoutY="318.0" mnemonicParsing="false" text="Delete" />
       <Label layoutX="484.0" layoutY="73.0" text="Products" />
-      <Button layoutX="817.0" layoutY="379.0" mnemonicParsing="false" text="Exit" />
+      <Button layoutX="817.0" layoutY="379.0" mnemonicParsing="false" onAction="#exitButtonListener" text="Exit" />
       <Label layoutX="39.0" layoutY="16.0" text="Inventory Management System">
          <font>
             <Font size="22.0" />

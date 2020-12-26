@@ -29,11 +29,19 @@ public class Inventory {
     }
 
     public static Part lookupPart(int partId) {
-        return null;
+        Part selectedPart = null;
+        for (Part part : allParts) {
+            if (part.getId() == partId) selectedPart = part;
+        }
+        return selectedPart;
     }
 
     public static Product lookupProduct(int productId) {
-        return null;
+        Product selectedProduct = null;
+        for (Product product : allProducts) {
+            if (product.getId() == productId) selectedProduct = product;
+        }
+        return selectedProduct;
     }
 
     public static ObservableList<Part> lookupPart(String partName) {
@@ -44,8 +52,23 @@ public class Inventory {
         return null;
     }
 
-    public static void updatePart(int index, Part selectedPart) {
-
+    public static void updatePart(int id, Part selectedPart) {
+        Part currentPart = lookupPart(id);
+        if (currentPart.getClass().equals(selectedPart.getClass())) {
+            currentPart.setName(selectedPart.getName());
+            currentPart.setPrice(selectedPart.getPrice());
+            currentPart.setStock(selectedPart.getStock());
+            currentPart.setMin(selectedPart.getMin());
+            currentPart.setMax(selectedPart.getMax());
+            if (currentPart instanceof InHousePart) {
+                ((InHousePart)currentPart).setMachineId(((InHousePart)selectedPart).getMachineId());
+            } else {
+                ((OutsourcedPart)currentPart).setCompanyName(((OutsourcedPart)selectedPart).getCompanyName());
+            }
+        } else {
+            deletePart(currentPart);
+            allParts.add(selectedPart);
+        }
     }
 
     public static void updateProduct(int index, Product newProduct) {
@@ -53,11 +76,11 @@ public class Inventory {
     }
 
     public static boolean deletePart(Part selectedPart) {
-        return false;
+        return allParts.remove(selectedPart);
     }
 
     public static boolean deleteProduct(Product selectedProduct) {
-        return false;
+        return allProducts.remove(selectedProduct);
     }
 
     public static ObservableList<Part> getAllParts() {

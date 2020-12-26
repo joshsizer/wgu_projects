@@ -37,6 +37,6 @@
       <RadioButton fx:id="outsourcedRadioButton" layoutX="317.0" layoutY="50.0" mnemonicParsing="false" onAction="#outsourcedRadioButtonListener" text="Outsourced" toggleGroup="$partTypeRadioGroup" />
       <Button layoutX="340.0" layoutY="368.0" mnemonicParsing="false" onAction="#partFormSaveButtonListener" text="Save" />
       <Button layoutX="402.0" layoutY="368.0" mnemonicParsing="false" onAction="#partFormCancelButtonListener" text="Cancel" />
-      <Label alignment="TOP_LEFT" layoutX="68.0" layoutY="395.0" prefHeight="138.0" prefWidth="164.0" wrapText="true" />
+      <Label fx:id="partFormErrorTextField" alignment="TOP_LEFT" layoutX="68.0" layoutY="395.0" prefHeight="138.0" prefWidth="164.0" wrapText="true" />
    </children>
 </AnchorPane>

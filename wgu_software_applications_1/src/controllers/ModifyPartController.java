@@ -50,6 +50,9 @@ public class ModifyPartController {
     private TextField partFormMachineIDTextField;
 
     @FXML
+    private Label partFormErrorTextField;
+
+    @FXML
     private Label partFormMachineIDLabel;
 
     public void setMainWindowController(MainWindowController controller) {
@@ -76,11 +79,13 @@ public class ModifyPartController {
         partFormMaxTextField.setText("");
         partFormMinTextField.setText("");
         partFormMachineIDTextField.setText("");
+        partFormErrorTextField.setText("");
     }
 
     public void initializeModifyPartForm(Part part) {
         currentPart = part;
         partFormLabel.setText("Modify part");
+        partFormErrorTextField.setText("");
         if (part instanceof InHousePart) {
             inHouseRadioButton.setSelected(true);
             inHouseRadioButtonListener();
@@ -103,7 +108,84 @@ public class ModifyPartController {
 
     @FXML
     public void partFormSaveButtonListener() {
+        String errorMessage = "";
+        Part newPart = null;
+        int id = Inventory.getNextPartID();
+        String name = partFormNameTextField.getText();
 
+        int inv = 0;
+
+        try {
+            inv = Integer.parseInt(partFormInvTextField.getText());
+        } catch (NumberFormatException e) {
+            errorMessage += "Inv must be an Integer!\n";
+        }
+
+        double price = 0;
+
+        try {
+            price = Double.parseDouble(partFormPriceTextField.getText());
+        } catch (NumberFormatException e) {
+            errorMessage += "Price/Cost must be a Double!\n";
+        }
+
+        int max = 0;
+        boolean minMaxOkay = true;
+
+        try {
+            max = Integer.parseInt(partFormMaxTextField.getText());
+        } catch (NumberFormatException e) {
+            errorMessage += "Max must be an Integer!\n";
+            minMaxOkay = false;
+        }
+
+        int min = 0;
+
+        try {
+            min = Integer.parseInt(partFormMinTextField.getText());
+        } catch (NumberFormatException e) {
+            errorMessage += "Min must be an Integer!\n";
+            minMaxOkay = false;
+        }
+
+        if (minMaxOkay && min > max) {
+            errorMessage += "Min must be less than max!\n";
+        } else if (minMaxOkay && (inv < min || inv > max)) {
+            errorMessage += "Inv must be between min and max!\n";
+        }
+
+        if (inHouseRadioButton.isSelected()) {
+            int machineID = 0;
+
+            try {
+                machineID = Integer.parseInt(partFormMachineIDTextField.getText());
+            } catch (NumberFormatException e) {
+                errorMessage += "Machine ID must be an Integer!\n";
+            }
+
+            if (errorMessage.equals("")) {
+                newPart = new InHousePart(id, name, price, inv, min, max, machineID);
+            }
+        } else {
+            String companyName = partFormMachineIDTextField.getText();
+
+            if (errorMessage.equals("")) {
+                newPart = new OutsourcedPart(id, name, price, inv, min, max, companyName);
+            }
+        }
+
+        if (newPart == null) {
+            partFormErrorTextField.setText(errorMessage);
+            return;
+        } else if (currentPart == null) {
+            Inventory.addPart(newPart);
+        } else {
+            newPart.setId(currentPart.getId());
+            Inventory.updatePart(currentPart.getId(), newPart);
+        }
+
+        mainWindowController.refreshPartTable();
+        primaryStage.setScene(mainScene);
     }
 
     @FXML
