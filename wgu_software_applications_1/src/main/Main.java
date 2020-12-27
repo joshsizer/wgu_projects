@@ -3,10 +3,7 @@ package main;
 import controllers.MainWindowController;
 import controllers.ModifyPartController;
 import controllers.ModifyProductController;
-import datastructure.InHousePart;
-import datastructure.Inventory;
-import datastructure.OutsourcedPart;
-import datastructure.Part;
+import datastructure.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -58,6 +55,13 @@ public class Main extends Application {
         Inventory.addPart(myPart);
         Inventory.addPart(myPart2);
         Inventory.addPart(myPart3);
+
+        Product myProduct = new Product(0, "Bicycle", 300.0, 20, 5, 40);
+        myProduct.addAssociatedPart(myPart);
+        myProduct.addAssociatedPart(myPart2);
+
+        Inventory.addProduct(myProduct);
+
         for (Part part : Inventory.getAllParts()) {
             System.out.println(part.getName());
         }

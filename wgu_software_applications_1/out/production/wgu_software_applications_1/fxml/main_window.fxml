@@ -23,18 +23,18 @@
       <Button fx:id="modifyPartButton" layoutX="283.0" layoutY="315.0" mnemonicParsing="false" onAction="#modifyPartButtonListener" text="Modify" />
       <Button layoutX="361.0" layoutY="315.0" mnemonicParsing="false" onAction="#deletePartButtonListener" text="Delete" />
       <Label layoutX="40.0" layoutY="70.0" text="Parts" />
-      <TableView layoutX="484.0" layoutY="106.0" prefHeight="200.0" prefWidth="376.0">
+      <TableView fx:id="productTableView" layoutX="484.0" layoutY="106.0" prefHeight="200.0" prefWidth="376.0">
          <columns>
-            <TableColumn prefWidth="75.0" text="Product ID" />
-            <TableColumn prefWidth="75.0" text="Product Name" />
-            <TableColumn prefWidth="96.0" text="Inventory Level" />
-            <TableColumn prefWidth="116.0" text="Price/Cost per Unit" />
+            <TableColumn fx:id="productIDTableColumn" prefWidth="75.0" text="Product ID" />
+            <TableColumn fx:id="productNameTableColumn" prefWidth="75.0" text="Product Name" />
+            <TableColumn fx:id="productInvTableColumn" prefWidth="96.0" text="Inventory Level" />
+            <TableColumn fx:id="productPriceTableColumn" prefWidth="116.0" text="Price/Cost per Unit" />
          </columns>
       </TableView>
       <TextField layoutX="698.0" layoutY="68.0" promptText="Search by Product ID or Name" />
-      <Button layoutX="663.0" layoutY="318.0" mnemonicParsing="false" text="Add" />
-      <Button layoutX="727.0" layoutY="318.0" mnemonicParsing="false" text="Modify" />
-      <Button layoutX="805.0" layoutY="318.0" mnemonicParsing="false" text="Delete" />
+      <Button layoutX="663.0" layoutY="318.0" mnemonicParsing="false" onAction="#addProductButtonListener" text="Add" />
+      <Button layoutX="727.0" layoutY="318.0" mnemonicParsing="false" onAction="#modifyProductButtonListener" text="Modify" />
+      <Button layoutX="805.0" layoutY="318.0" mnemonicParsing="false" onAction="#deleteProductButtonListener" text="Delete" />
       <Label layoutX="484.0" layoutY="73.0" text="Products" />
       <Button layoutX="817.0" layoutY="379.0" mnemonicParsing="false" onAction="#exitButtonListener" text="Exit" />
       <Label layoutX="39.0" layoutY="16.0" text="Inventory Management System">

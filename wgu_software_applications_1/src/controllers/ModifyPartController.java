@@ -113,6 +113,10 @@ public class ModifyPartController {
         int id = Inventory.getNextPartID();
         String name = partFormNameTextField.getText();
 
+        if (name.length() < 1) {
+            errorMessage += "Name cannot be blank!\n";
+        }
+
         int inv = 0;
 
         try {

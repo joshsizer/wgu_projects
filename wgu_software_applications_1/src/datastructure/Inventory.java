@@ -71,8 +71,27 @@ public class Inventory {
         }
     }
 
-    public static void updateProduct(int index, Product newProduct) {
+    public static void updateProduct(int id, Product newProduct) {
+        Product currentProduct = lookupProduct(id);
+        currentProduct.setName(newProduct.getName());
+        currentProduct.setStock(newProduct.getStock());
+        currentProduct.setPrice(newProduct.getPrice());
+        currentProduct.setMin(newProduct.getMin());
+        currentProduct.setMax(newProduct.getMax());
 
+        ObservableList<Part> currentProductPartsToRemove = FXCollections.observableArrayList();
+
+        for (Part part : currentProduct.getAllAssociatedParts()) {
+            currentProductPartsToRemove.add(part);
+        }
+
+        for (Part part : currentProductPartsToRemove) {
+            currentProduct.deleteAssociatedPart(part);
+        }
+
+        for (Part part : newProduct.getAllAssociatedParts()) {
+            currentProduct.addAssociatedPart(part);
+        }
     }
 
     public static boolean deletePart(Part selectedPart) {
