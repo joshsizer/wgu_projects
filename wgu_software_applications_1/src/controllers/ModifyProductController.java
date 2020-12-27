@@ -47,6 +47,9 @@ public class ModifyProductController {
     private Label productFormErrorLabel;
 
     @FXML
+    private TextField partSearchTextField;
+
+    @FXML
     private TableView<Part> productFormPartTableView;
 
     @FXML
@@ -114,6 +117,8 @@ public class ModifyProductController {
 
         ObservableList<Part> associatedPartsCopy = FXCollections.observableArrayList();
         productFormAssociatedPartTableView.setItems(associatedPartsCopy);
+        partSearchTextField.setText("");
+        partSearchOnEnter();
     }
 
     public void initializeModifyProductForm(Product product) {
@@ -132,6 +137,8 @@ public class ModifyProductController {
             associatedPartsCopy.add(part);
         }
         productFormAssociatedPartTableView.setItems(associatedPartsCopy);
+        partSearchTextField.setText("");
+        partSearchOnEnter();
     }
 
     @FXML
@@ -232,5 +239,13 @@ public class ModifyProductController {
 
         productFormAssociatedPartTableView.getItems().remove(selectedPart);
         productFormAssociatedPartTableView.refresh();
+    }
+
+    @FXML
+    public void partSearchOnEnter() {
+        String text = partSearchTextField.getText();
+        ObservableList<Part> foundParts = Inventory.lookupPart(text);
+
+        productFormPartTableView.setItems(foundParts);
     }
 }

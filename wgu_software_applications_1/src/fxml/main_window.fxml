@@ -18,7 +18,7 @@
             <TableColumn fx:id="partPriceTableColumn" prefWidth="116.0" text="Price/Cost per Unit" />
         </columns>
       </TableView>
-      <TextField layoutX="254.0" layoutY="65.0" promptText="Search by Part ID or Name" />
+      <TextField fx:id="partSearchTextField" layoutX="254.0" layoutY="65.0" onAction="#partSearchOnEnter" promptText="Search by Part ID or Name" />
       <Button fx:id="addPartButton" layoutX="216.0" layoutY="314.0" mnemonicParsing="false" onAction="#addPartButtonListener" text="Add" />
       <Button fx:id="modifyPartButton" layoutX="283.0" layoutY="315.0" mnemonicParsing="false" onAction="#modifyPartButtonListener" text="Modify" />
       <Button layoutX="361.0" layoutY="315.0" mnemonicParsing="false" onAction="#deletePartButtonListener" text="Delete" />
@@ -31,7 +31,7 @@
             <TableColumn fx:id="productPriceTableColumn" prefWidth="116.0" text="Price/Cost per Unit" />
          </columns>
       </TableView>
-      <TextField layoutX="698.0" layoutY="68.0" promptText="Search by Product ID or Name" />
+      <TextField fx:id="productSearchTextField" layoutX="698.0" layoutY="68.0" onAction="#productSearchOnEnter" promptText="Search by Product ID or Name" />
       <Button layoutX="663.0" layoutY="318.0" mnemonicParsing="false" onAction="#addProductButtonListener" text="Add" />
       <Button layoutX="727.0" layoutY="318.0" mnemonicParsing="false" onAction="#modifyProductButtonListener" text="Modify" />
       <Button layoutX="805.0" layoutY="318.0" mnemonicParsing="false" onAction="#deleteProductButtonListener" text="Delete" />

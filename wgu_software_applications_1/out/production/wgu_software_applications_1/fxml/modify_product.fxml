@@ -38,7 +38,7 @@
             <TableColumn fx:id="productFormPartPriceTableColumn" prefWidth="116.0" text="Price/Cost per Unit" />
          </columns>
       </TableView>
-      <TextField layoutX="749.0" layoutY="40.0" promptText="Search by Part ID or Name" />
+      <TextField fx:id="partSearchTextField" layoutX="749.0" layoutY="40.0" onAction="#partSearchOnEnter" promptText="Search by Part ID or Name" />
       <TableView fx:id="productFormAssociatedPartTableView" layoutX="535.0" layoutY="343.0" prefHeight="200.0" prefWidth="376.0">
          <columns>
             <TableColumn fx:id="productFormAssociatedPartIDTableColumn" prefWidth="75.0" text="Part ID" />

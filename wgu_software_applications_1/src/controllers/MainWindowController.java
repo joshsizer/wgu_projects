@@ -1,15 +1,11 @@
 package controllers;
 
-import datastructure.InHousePart;
 import datastructure.Inventory;
 import datastructure.Part;
 import datastructure.Product;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,6 +20,12 @@ public class MainWindowController
 
     @FXML
     private Button addPartButton;
+
+    @FXML
+    private TextField partSearchTextField;
+
+    @FXML
+    private TextField productSearchTextField;
 
     @FXML
     private TableView<Part> partTableView;
@@ -120,7 +122,7 @@ public class MainWindowController
         if (selectedPart == null) {
             return;
         }
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this part?", ButtonType.YES, ButtonType.CANCEL);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this part?", ButtonType.CANCEL, ButtonType.YES);
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES) {
@@ -156,7 +158,7 @@ public class MainWindowController
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this product?", ButtonType.YES, ButtonType.CANCEL);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this product?", ButtonType.CANCEL, ButtonType.YES);
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES) {
@@ -168,6 +170,22 @@ public class MainWindowController
     @FXML
     public void exitButtonListener() {
         Platform.exit();
+    }
+
+    @FXML
+    public void partSearchOnEnter() {
+        String text = partSearchTextField.getText();
+        ObservableList<Part> foundParts = Inventory.lookupPart(text);
+
+        partTableView.setItems(foundParts);
+    }
+
+    @FXML
+    public void productSearchOnEnter() {
+        String text = productSearchTextField.getText();
+        ObservableList<Product> foundProducts = Inventory.lookupProduct(text);
+
+        productTableView.setItems(foundProducts);
     }
 
     public void refreshPartTable() {

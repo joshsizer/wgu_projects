@@ -45,11 +45,45 @@ public class Inventory {
     }
 
     public static ObservableList<Part> lookupPart(String partName) {
-        return null;
+        ObservableList<Part> toRet = FXCollections.observableArrayList();
+        try {
+            int id = Integer.parseInt(partName);
+            Part lookedUp = lookupPart(id);
+            if (lookedUp != null) {
+                toRet.add(lookedUp);
+            }
+        } catch (NumberFormatException e) {
+
+        }
+
+        for (Part part : allParts) {
+            String name = part.getName();
+            if (name.contains(partName)) {
+                toRet.add(part);
+            }
+        }
+        return toRet;
     }
 
     public static ObservableList<Product> lookupProduct(String productName) {
-        return null;
+        ObservableList<Product> toRet = FXCollections.observableArrayList();
+        try {
+            int id = Integer.parseInt(productName);
+            Product lookedUp = lookupProduct(id);
+            if (lookedUp != null) {
+                toRet.add(lookedUp);
+            }
+        } catch (NumberFormatException e) {
+
+        }
+
+        for (Product product : allProducts) {
+            String name = product.getName();
+            if (name.contains(productName)) {
+                toRet.add(product);
+            }
+        }
+        return toRet;
     }
 
     public static void updatePart(int id, Part selectedPart) {
