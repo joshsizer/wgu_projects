@@ -5,7 +5,7 @@ package datastructure;
 
 /**
  *
- * @author Place Your Name Here
+ * @author Joshua Sizer
  */
 public abstract class Part {
     private int id;

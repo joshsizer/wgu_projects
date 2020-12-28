@@ -10,6 +10,27 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * The main class for this application.
+ * This houses the main method which launches the javafx application.
+ *
+ * One feature I'd add to this application if I continued working on it
+ * would be to disallow the entering of any non-numeric characters in
+ * the form fields for the product/part forms where Integers or Doubles
+ * are required. Currently, you can enter non-numeric values into these
+ * text fields, and an error is printed below the form fields. A better
+ * approach would be to stop any non-numeric character from being entered
+ * in the first place.
+ *
+ * Another feature I'd add would be to have the error messages
+ * appear directly below the form field with the error, and have the
+ * form field turn red, like you often see on websites.
+ *
+ * The error that I came across and corrected is in the Inventory class's
+ * method updateProduct.
+ *
+ * @author Joshua Sizer
+ */
 public class Main extends Application {
 
     @Override
