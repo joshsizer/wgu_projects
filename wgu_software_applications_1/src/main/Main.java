@@ -33,6 +33,14 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
+    /**
+     * Initializes each controller to have references to the other
+     * controllers and scenes, as well as initializes the application
+     * to start on the main scene.
+     *
+     * @param primaryStage The application's primary stage.
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../fxml/main_window.fxml"));
@@ -67,7 +75,12 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
+    /**
+     * The entry point for the program. Creates a few dummy parts and products
+     * and launches the javafx application.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         Part myPart = new InHousePart(0, "Sprocket", 9.99, 19, 5, 30, 1);
         Part myPart2 = new InHousePart(1, "Handle Bar", 18.0, 8, 2, 10, 1);
@@ -82,10 +95,6 @@ public class Main extends Application {
         myProduct.addAssociatedPart(myPart2);
 
         Inventory.addProduct(myProduct);
-
-        for (Part part : Inventory.getAllParts()) {
-            System.out.println(part.getName());
-        }
 
         launch(args);
     }

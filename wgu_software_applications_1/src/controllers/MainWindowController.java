@@ -247,6 +247,10 @@ public class MainWindowController
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES) {
+            ObservableList<Product> products = Inventory.getAllProducts();
+            for (Product product : products) {
+                product.deleteAssociatedPart(selectedPart);
+            }
             Inventory.deletePart(selectedPart);
             refreshPartTable();
         }
@@ -351,6 +355,8 @@ public class MainWindowController
      * Refreshes the data in the partTableView.
      */
     public void refreshPartTable() {
+        partSearchTextField.setText("");
+        partTableView.setItems(Inventory.getAllParts());
         partTableView.refresh();
     }
 
@@ -358,6 +364,8 @@ public class MainWindowController
      * Refreshed the data in the productTableView.
      */
     public void refreshProductTable() {
+        productSearchTextField.setText("");
+        productTableView.setItems(Inventory.getAllProducts());
         productTableView.refresh();
     }
 }

@@ -3,6 +3,8 @@ package datastructure;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Locale;
+
 /**
  * A static class for keeping track of parts
  * and products.
@@ -104,6 +106,7 @@ public class Inventory {
      * @return The part (or parts) matching the given partName string.
      */
     public static ObservableList<Part> lookupPart(String partName) {
+        partName = partName.toLowerCase();
         ObservableList<Part> toRet = FXCollections.observableArrayList();
         try {
             int id = Integer.parseInt(partName);
@@ -117,7 +120,7 @@ public class Inventory {
 
         for (Part part : allParts) {
             String name = part.getName();
-            if (name.contains(partName)) {
+            if (name.toLowerCase().contains(partName)) {
                 toRet.add(part);
             }
         }
@@ -131,6 +134,7 @@ public class Inventory {
      * @return The product (or products) matching the given productName string.
      */
     public static ObservableList<Product> lookupProduct(String productName) {
+        productName = productName.toLowerCase();
         ObservableList<Product> toRet = FXCollections.observableArrayList();
         try {
             int id = Integer.parseInt(productName);
@@ -144,7 +148,7 @@ public class Inventory {
 
         for (Product product : allProducts) {
             String name = product.getName();
-            if (name.contains(productName)) {
+            if (name.toLowerCase().contains(productName)) {
                 toRet.add(product);
             }
         }

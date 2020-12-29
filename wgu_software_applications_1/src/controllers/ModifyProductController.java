@@ -229,8 +229,10 @@ public class ModifyProductController {
         productFormMinTextField.setText("");
         productFormErrorLabel.setText("");
 
-        ObservableList<Part> associatedPartsCopy = FXCollections.observableArrayList();
-        productFormAssociatedPartTableView.setItems(associatedPartsCopy);
+        ObservableList<Part> emptyAssociatedParts = FXCollections.observableArrayList();
+        productFormAssociatedPartTableView.setItems(emptyAssociatedParts);
+        productFormPartTableView.refresh();
+
         partSearchTextField.setText("");
         partSearchOnEnter();
     }
@@ -253,11 +255,14 @@ public class ModifyProductController {
         productFormMinTextField.setText(Integer.toString(product.getMin()));
         productFormErrorLabel.setText("");
 
+
         ObservableList<Part> associatedPartsCopy = FXCollections.observableArrayList();
         for (Part part : product.getAllAssociatedParts()) {
             associatedPartsCopy.add(part);
         }
         productFormAssociatedPartTableView.setItems(associatedPartsCopy);
+        productFormAssociatedPartTableView.refresh();
+        productFormPartTableView.refresh();
         partSearchTextField.setText("");
         partSearchOnEnter();
     }
