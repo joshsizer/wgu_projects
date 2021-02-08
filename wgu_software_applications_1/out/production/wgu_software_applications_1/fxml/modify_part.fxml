@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="582.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModifyPartController">
+   <children>
+      <Label fx:id="partFormLabel" layoutX="58.0" layoutY="50.0" text="Add Part">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="partFormMachineIDLabel" layoutX="77.0" layoutY="309.0" text="Machine ID" />
+      <Label layoutX="77.0" layoutY="267.0" text="Max" />
+      <Label fx:id="partFormIDLabel" layoutX="77.0" layoutY="112.0" text="ID" />
+      <Label layoutX="77.0" layoutY="149.0" text="Name" />
+      <Label layoutX="77.0" layoutY="227.0" text="Price/Cost" />
+      <Label layoutX="77.0" layoutY="189.0" text="Inv" />
+      <TextField fx:id="partFormIDTextField" disable="true" editable="false" layoutX="179.0" layoutY="107.0" prefHeight="27.0" prefWidth="117.0" />
+      <TextField fx:id="partFormNameTextField" layoutX="179.0" layoutY="144.0" prefHeight="27.0" prefWidth="117.0" />
+      <TextField fx:id="partFormInvTextField" layoutX="179.0" layoutY="184.0" prefHeight="27.0" prefWidth="117.0" />
+      <TextField fx:id="partFormPriceTextField" layoutX="179.0" layoutY="222.0" prefHeight="27.0" prefWidth="117.0" />
+      <TextField fx:id="partFormMaxTextField" layoutX="179.0" layoutY="262.0" prefHeight="27.0" prefWidth="117.0" />
+      <TextField fx:id="partFormMachineIDTextField" layoutX="179.0" layoutY="304.0" prefHeight="27.0" prefWidth="117.0" />
+      <Label layoutX="307.0" layoutY="267.0" text="Min" />
+      <TextField fx:id="partFormMinTextField" layoutX="341.0" layoutY="262.0" prefHeight="27.0" prefWidth="117.0" />
+      <RadioButton fx:id="inHouseRadioButton" layoutX="179.0" layoutY="50.0" mnemonicParsing="false" onAction="#inHouseRadioButtonListener" selected="true" text="In-House">
+         <toggleGroup>
+            <ToggleGroup fx:id="partTypeRadioGroup" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="outsourcedRadioButton" layoutX="317.0" layoutY="50.0" mnemonicParsing="false" onAction="#outsourcedRadioButtonListener" text="Outsourced" toggleGroup="$partTypeRadioGroup" />
+      <Button layoutX="340.0" layoutY="368.0" mnemonicParsing="false" onAction="#partFormSaveButtonListener" text="Save" />
+      <Button layoutX="402.0" layoutY="368.0" mnemonicParsing="false" onAction="#partFormCancelButtonListener" text="Cancel" />
+      <Label fx:id="partFormErrorTextField" alignment="TOP_LEFT" layoutX="68.0" layoutY="395.0" prefHeight="138.0" prefWidth="164.0" wrapText="true" />
+   </children>
+</AnchorPane>
