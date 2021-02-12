@@ -82,7 +82,7 @@ public class User {
         ResultSet rs = stmt.executeQuery();
 
         if (rs.next()) {
-            return getUserFromRow(rs);
+            return getFromRow(rs);
         }
 
         return null;
@@ -96,7 +96,7 @@ public class User {
      * @throws SQLException if a database access error occurs
      *           or this method is called on on a closed connection.
      */
-    private static User getUserFromRow(ResultSet currentRow) throws SQLException {
+    private static User getFromRow(ResultSet currentRow) throws SQLException {
         int userId = currentRow.getInt("User_ID");
         String userName = currentRow.getString("User_Name");
         String password = currentRow.getString("Password");
@@ -116,7 +116,7 @@ public class User {
      * @throws SQLException if a database access error occurs
      * or this method is called on on a closed connection.
      */
-    public static ArrayList<User> getAllUsers() throws SQLException {
+    public static ArrayList<User> getAll() throws SQLException {
         String sql = "SELECT * FROM WJ07mIl.users";
         PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
         ResultSet resultSet = stmt.executeQuery();
@@ -124,7 +124,7 @@ public class User {
         ArrayList<User> ret = new ArrayList<>();
 
         while (resultSet.next()) {
-            ret.add(getUserFromRow(resultSet));
+            ret.add(getFromRow(resultSet));
         }
 
         return ret;

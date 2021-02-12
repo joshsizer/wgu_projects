@@ -1,10 +1,7 @@
 package main;
 
 import controllers.*;
-import datastructure.Appointment;
-import datastructure.Customer;
-import datastructure.FirstLevelDivision;
-import datastructure.User;
+import datastructure.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -64,8 +61,8 @@ public class Main extends Application {
             appScreen.getController().setApplicationContext(context);
         }
 
-        ArrayList<FirstLevelDivision> flds = FirstLevelDivision.getAll();
-        for (FirstLevelDivision fld : flds) {
+        ArrayList<Contact> flds = Contact.getAll();
+        for (Contact fld : flds) {
             System.out.println(fld);
         }
 
