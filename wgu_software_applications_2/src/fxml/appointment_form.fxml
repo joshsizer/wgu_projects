@@ -36,7 +36,7 @@
       <TextField layoutX="464.0" layoutY="188.0" />
       <TextField layoutX="463.0" layoutY="228.0" />
       <TextField layoutX="463.0" layoutY="108.0" />
-      <TextArea layoutX="170.0" layoutY="194.0" prefHeight="51.0" prefWidth="150.0" />
+      <TextArea layoutX="170.0" layoutY="194.0" prefHeight="51.0" prefWidth="150.0" wrapText="true" />
       <Label layoutX="376.0" layoutY="272.0" text="Customer_ID" />
       <TextField layoutX="463.0" layoutY="267.0" />
       <Label layoutX="376.0" layoutY="312.0" text="User_ID" />

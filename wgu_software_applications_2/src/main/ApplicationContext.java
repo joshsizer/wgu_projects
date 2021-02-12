@@ -1,5 +1,6 @@
 package main;
 
+import datastructure.User;
 import javafx.stage.Stage;
 import java.util.HashMap;
 
@@ -20,6 +21,11 @@ public class ApplicationContext {
      * The Application's primary stage.
      */
     private Stage primaryStage;
+
+    /**
+     * The currently logged in User
+     */
+    private User currentUser;
 
     /**
      * Create the ApplicationContext
@@ -69,5 +75,23 @@ public class ApplicationContext {
      */
     public Stage getPrimaryStage() {
         return this.primaryStage;
+    }
+
+    /**
+     * Set the Application's currently logged in User.
+     *
+     * @param user The user that is currently logged in.
+     */
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+    }
+
+    /**
+     * Get the Application's currently logged in User.
+     *
+     * @return The User currently logged in.
+     */
+    public User getCurrentUser() {
+        return this.currentUser;
     }
 }

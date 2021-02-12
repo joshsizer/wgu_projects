@@ -28,9 +28,12 @@ public class HomeScreenController extends MyController {
 
     /**
      * Called when the Log Out button is pressed.
-     * Redirects the user to the Login Form.
+     * Resets the login form and
+     * redirects the user to the Login Form.
      */
     public void logoutButtonListener() {
+        getApplicationContext().setCurrentUser(null);
+        ((LoginFormController)getController("login_form")).initialize();
         setScene("login_form");
     }
 }

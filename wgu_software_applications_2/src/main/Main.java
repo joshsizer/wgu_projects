@@ -1,16 +1,26 @@
 package main;
 
 import controllers.*;
+import datastructure.Appointment;
+import datastructure.Customer;
+import datastructure.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.sql.*;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.TimeZone;
+
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
+        //TimeZone.setDefault( TimeZone.getTimeZone( "Pacific/Auckland" ));
+
         FXMLLoader loginFormLoader = new FXMLLoader(getClass().getResource("../fxml/login_form.fxml"));
         Scene loginFormScene = new Scene(loginFormLoader.load());
         LoginFormController loginFormController = (LoginFormController) loginFormLoader.getController();
@@ -53,9 +63,16 @@ public class Main extends Application {
             appScreen.getController().setApplicationContext(context);
         }
 
+        ArrayList<Appointment> appointments = Appointment.getAll();
+        for (Appointment appointment : appointments) {
+            System.out.println(appointment);
+        }
+
         primaryStage.setTitle("Scheduling Software");
         primaryStage.setScene(appointmentFormController.getApplicationContext().getAppScreen("login_form").getScene());
         primaryStage.show();
+
+        ConnectionManager.closeConnection();
     }
 
 
