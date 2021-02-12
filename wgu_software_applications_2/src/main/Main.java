@@ -3,6 +3,7 @@ package main;
 import controllers.*;
 import datastructure.Appointment;
 import datastructure.Customer;
+import datastructure.FirstLevelDivision;
 import datastructure.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -63,9 +64,9 @@ public class Main extends Application {
             appScreen.getController().setApplicationContext(context);
         }
 
-        ArrayList<Appointment> appointments = Appointment.getAll();
-        for (Appointment appointment : appointments) {
-            System.out.println(appointment);
+        ArrayList<FirstLevelDivision> flds = FirstLevelDivision.getAll();
+        for (FirstLevelDivision fld : flds) {
+            System.out.println(fld);
         }
 
         primaryStage.setTitle("Scheduling Software");
