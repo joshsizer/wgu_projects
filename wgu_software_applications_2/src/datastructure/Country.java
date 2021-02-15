@@ -70,6 +70,27 @@ public class Country {
     }
 
     /**
+     * Returns a Country based on its ID.
+     *
+     * @param id The ID, primary key, for the Country.
+     * @return The Country associated with this id.
+     * @throws SQLException if a database access error occurs
+     *          or this method is called on on a closed connection.
+     */
+    public static Country getById(int id) throws SQLException {
+        String sql = "SELECT * FROM WJ07mIl.countries WHERE Country_ID = ?";
+        PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
+        stmt.setInt(1, id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        if (resultSet.next()) {
+            return getFromRow(resultSet);
+        }
+
+        return null;
+    }
+
+    /**
      * Returns a Country object from the current cursor in a ResultSet.
      *
      * @param currentRow A ResultSet that contains every column of the countries table
@@ -108,6 +129,22 @@ public class Country {
         }
 
         return ret;
+    }
+
+    /**
+     * Get this Country's ID.
+     * @return This Country's ID.
+     */
+    public int getCountryId() {
+        return this.countryId;
+    }
+
+    /**
+     * Get this Country's Name.
+     * @return This Country's Name.
+     */
+    public String getCountryName() {
+        return this.country;
     }
 
     /**

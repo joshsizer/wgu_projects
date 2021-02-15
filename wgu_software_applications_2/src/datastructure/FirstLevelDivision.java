@@ -81,6 +81,27 @@ public class FirstLevelDivision {
     }
 
     /**
+     * Returns an FLD based on it's ID.
+     *
+     * @param id The ID, primary key, for the First Level Division.
+     * @return The FLD associated with this id.
+     * @throws SQLException if a database access error occurs
+     *          or this method is called on on a closed connection.
+     */
+    public static FirstLevelDivision getById(int id) throws SQLException {
+        String sql = "SELECT * FROM WJ07mIl.first_level_divisions WHERE Division_ID = ?";
+        PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
+        stmt.setInt(1, id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        if (resultSet.next()) {
+            return getFromRow(resultSet);
+        }
+
+        return null;
+    }
+
+    /**
      * Returns a FLD object from the current cursor in a ResultSet.
      *
      * @param currentRow A ResultSet that contains every column of the FLD table
@@ -120,6 +141,30 @@ public class FirstLevelDivision {
         }
 
         return ret;
+    }
+
+    /**
+     * Get this FLD's ID.
+     * @return This FLD's ID.
+     */
+    public int getDivisionId() {
+        return this.divisionId;
+    }
+
+    /**
+     * Get this FLD's name.
+     * @return This FLD's name
+     */
+    public String getDivisionName() {
+        return this.division;
+    }
+
+    /**
+     * Get this FLD's Country_ID.
+     * @return This FLD's Country_ID.
+     */
+    public int getCountryId() {
+        return this.countryId;
     }
 
     /**

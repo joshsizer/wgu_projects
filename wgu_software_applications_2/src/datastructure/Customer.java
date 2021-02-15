@@ -1,5 +1,7 @@
 package datastructure;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import main.ConnectionManager;
 
 import java.sql.PreparedStatement;
@@ -8,7 +10,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 
 /**
  * Represents the Customers in this Application.
@@ -130,18 +131,86 @@ public class Customer {
      * @throws SQLException if a database access error occurs
      * or this method is called on on a closed connection.
      */
-    public static ArrayList<Customer> getAll() throws SQLException {
+    public static ObservableList<Customer> getAll() throws SQLException {
         String sql = "SELECT * FROM WJ07mIl.customers";
         PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
         ResultSet resultSet = stmt.executeQuery();
 
-        ArrayList<Customer> ret = new ArrayList<>();
+        ObservableList<Customer> ret = FXCollections.observableArrayList();
 
         while (resultSet.next()) {
             ret.add(getFromRow(resultSet));
         }
 
         return ret;
+    }
+
+    /**
+     * Get this Customer's Customer_ID
+     * @return This Customer's Customer_ID
+     */
+    public int getCustomerId() {
+        return this.customerId;
+    }
+
+    /**
+     * Get this Customer's Name.
+     * @return This Customer's Name.
+     */
+    public String getCustomerName() {
+        return this.customerName;
+    }
+
+    /**
+     * Get this Customer's Address.
+     * @return This Customer's Address.
+     */
+    public String getAddress() {
+        return this.address;
+    }
+
+    /**
+     * Get this Customer's Postal Code.
+     * @return This Customer's Postal Code.
+     */
+    public String getPostalCode() {
+        return this.postalCode;
+    }
+
+    /**
+     * Get this Customer's Phone Number.
+     * @return This Customer's Phone Number.
+     */
+    public String getPhone() {
+        return this.phone;
+    }
+
+    /**
+     * Get this Customer's Division_ID.
+     * @return This Customer's Division_ID.
+     */
+    public int getDivisionId() {
+        return this.divisionId;
+    }
+
+    /**
+     * Get this Customer's Division Name.
+     * @return This Customer's Division Name.
+     * @throws SQLException if a database access error occurs
+     *      * or this method is called on on a closed connection.
+     */
+    public String getDivisionName() throws SQLException {
+        return FirstLevelDivision.getById(getDivisionId()).getDivisionName();
+    }
+
+    /**
+     * Get this Customer's Country.
+     * @return This Customer's Country.
+     * @throws SQLException if a database access error occurs
+     *      * or this method is called on on a closed connection.
+     */
+    public String getCountryName() throws SQLException {
+        return Country.getById(FirstLevelDivision.getById(getDivisionId()).getCountryId()).getCountryName();
     }
 
     /**
