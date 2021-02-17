@@ -11,10 +11,10 @@
    <children>
       <TableView fx:id="customerTableView" layoutX="60.0" layoutY="75.0" prefHeight="410.0" prefWidth="863.0">
         <columns>
-          <TableColumn fx:id="customerIdTableColumn" prefWidth="110.39999008178711" text="Customer_ID" />
-          <TableColumn fx:id="nameTableColumn" prefWidth="62.4000244140625" text="Name" />
-            <TableColumn fx:id="addressTableColumn" prefWidth="170.4000244140625" text="Address" />
-            <TableColumn fx:id="fldTableColumn" prefWidth="129.60003662109375" text="First-Level-Division" />
+          <TableColumn fx:id="customerIdTableColumn" prefWidth="90.39999008178711" text="Customer_ID" />
+          <TableColumn fx:id="nameTableColumn" prefWidth="120.80000305175781" text="Name" />
+            <TableColumn fx:id="addressTableColumn" prefWidth="102.4000244140625" text="Address" />
+            <TableColumn fx:id="fldTableColumn" prefWidth="163.20001220703125" text="First-Level-Division" />
             <TableColumn fx:id="countryTableColumn" prefWidth="95.20001220703125" text="Country" />
             <TableColumn fx:id="postalCodeTableColumn" minWidth="0.0" prefWidth="72.00006103515625" text="Postal Code" />
             <TableColumn fx:id="phoneNumberTableColumn" prefWidth="221.60003662109375" text="Phone Number" />
@@ -28,6 +28,6 @@
       <Button layoutX="60.0" layoutY="512.0" mnemonicParsing="false" onAction="#backButtonListener" text="Back" />
       <Button layoutX="884.0" layoutY="512.0" mnemonicParsing="false" onAction="#addButtonListener" text="Add" />
       <Button layoutX="819.0" layoutY="512.0" mnemonicParsing="false" onAction="#modifyButtonListener" text="Modify" />
-      <Button layoutX="756.0" layoutY="512.0" mnemonicParsing="false" text="Delete" />
+      <Button layoutX="756.0" layoutY="512.0" mnemonicParsing="false" onAction="#deleteButtonListener" text="Delete" />
    </children>
 </AnchorPane>

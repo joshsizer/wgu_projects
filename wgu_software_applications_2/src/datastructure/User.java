@@ -131,6 +131,14 @@ public class User {
     }
 
     /**
+     * Get this User's User Name.
+     * @return This User's User Name.
+     */
+    public String getUserName() {
+        return this.userName;
+    }
+
+    /**
      * Get this User's password.
      *
      * @return This User's password.

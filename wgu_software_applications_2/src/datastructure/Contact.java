@@ -44,6 +44,27 @@ public class Contact {
     }
 
     /**
+     * Returns a Contact based on its ID.
+     *
+     * @param id The ID, primary key, for the Contact.
+     * @return The Contact associated with this id.
+     * @throws SQLException if a database access error occurs
+     *          or this method is called on on a closed connection.
+     */
+    public static Contact getById(int id) throws SQLException {
+        String sql = "SELECT * FROM WJ07mIl.contacts WHERE Contact_ID = ?";
+        PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
+        stmt.setInt(1, id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        if (resultSet.next()) {
+            return getFromRow(resultSet);
+        }
+
+        return null;
+    }
+
+    /**
      * Returns a Contact object from the current cursor in a ResultSet.
      *
      * @param currentRow A ResultSet that contains every column of the contacts table
@@ -78,6 +99,30 @@ public class Contact {
         }
 
         return ret;
+    }
+
+    /**
+     * Get this Contact's ID.
+     * @return This Contact's ID.
+     */
+    public int getContactId() {
+        return this.contactId;
+    }
+
+    /**
+     * Get this Contact's Name.
+     * @return This Contact's Name.
+     */
+    public String getContactName() {
+        return this.contactName;
+    }
+
+    /**
+     * Get this Contact's Email.
+     * @return This Contact's Email.
+     */
+    public String getEmail() {
+        return this.email;
     }
 
     /**

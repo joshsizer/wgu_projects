@@ -1,5 +1,8 @@
 package datastructure;
 
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import main.ConnectionManager;
 
 import java.sql.PreparedStatement;
@@ -117,12 +120,12 @@ public class Country {
      * @throws SQLException if a database access error occurs
      * or this method is called on on a closed connection.
      */
-    public static ArrayList<Country> getAll() throws SQLException {
+    public static ObservableList<Country> getAll() throws SQLException {
         String sql = "SELECT * FROM WJ07mIl.countries";
         PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
         ResultSet resultSet = stmt.executeQuery();
 
-        ArrayList<Country> ret = new ArrayList<>();
+        ObservableList<Country> ret = FXCollections.observableArrayList();
 
         while (resultSet.next()) {
             ret.add(getFromRow(resultSet));
@@ -161,5 +164,21 @@ public class Country {
                 + " | Created_By: " + this.createdBy
                 + " | Last_Update: " + this.lastUpdateDate
                 + " | Last_Updated_By: " + this.lastUpdateBy;
+    }
+
+    /**
+     * Returns true if the object passed is a Country
+     * and its ID is equal to this Country's ID.
+     * @param other The object to compare.
+     * @return True if the object passed is a Country and its ID is
+     * equal to this Country's ID.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Country)) {
+            return false;
+        }
+        Country otherC = (Country)other;
+        return otherC.getCountryId() == this.getCountryId();
     }
 }

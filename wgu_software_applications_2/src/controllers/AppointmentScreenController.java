@@ -1,6 +1,109 @@
 package controllers;
 
+import datastructure.Appointment;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.sql.SQLException;
+
 public class AppointmentScreenController extends MyController {
+
+    /**
+     * The TableView for displaying a list
+     * of Appointments.
+     */
+    @FXML
+    TableView<Appointment> appointmentTableView;
+
+    /**
+     * The Appointment_ID column for the Appointment
+     * Table View.
+     */
+    @FXML
+    TableColumn<Appointment, Integer> appointmentIdTableColumn;
+
+    /**
+     * The Title column for the Appointment
+     * Table View.
+     */
+    @FXML
+    TableColumn<Appointment, String> titleTableColumn;
+
+    /**
+     * The Description column for the Appointment
+     * Table View.
+     */
+    @FXML
+    TableColumn<Appointment, String> descriptionTableColumn;
+
+    /**
+     * The Location column for the Appointment
+     * Table View.
+     */
+    @FXML
+    TableColumn<Appointment, String> locationTableColumn;
+
+    /**
+     * The Contact column for the Appointment
+     * Table View.
+     */
+    @FXML
+    TableColumn<Appointment, String> contactTableColumn;
+
+    /**
+     * The Type column for the Appointment
+     * Table View.
+     */
+    @FXML
+    TableColumn<Appointment, String> typeTableColumn;
+
+    /**
+     * The Start Date Time for the Appointment
+     * Table View.
+     */
+    @FXML
+    TableColumn<Appointment, String> startDateTimeTableColumn;
+
+    /**
+     * The End Date Time for the Appointment
+     * Table View.
+     */
+    @FXML
+    TableColumn<Appointment, String> endDateTimeTableColumn;
+
+    /**
+     * The Customer_ID column for the Appointment
+     * Table View.
+     */
+    @FXML
+    TableColumn<Appointment, Integer> customerIdTableColumn;
+
+    /**
+     * Called when this controller is first loaded.
+     */
+    public void initialize() {
+        appointmentIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        titleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationTableColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+        contactTableColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));;
+        typeTableColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startDateTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("startDateTime"));
+        endDateTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("endDateTime"));
+        customerIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        refreshAppointmentTable();
+    }
+
+    private void refreshAppointmentTable() {
+        try {
+            appointmentTableView.setItems(Appointment.getAll());
+            appointmentTableView.refresh();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Called when the Back button is pressed.

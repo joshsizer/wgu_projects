@@ -1,7 +1,10 @@
 package controllers;
 
+import datastructure.Appointment;
 import datastructure.Customer;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -76,8 +79,13 @@ public class CustomerScreenController extends MyController {
         countryTableColumn.setCellValueFactory(new PropertyValueFactory<>("countryName"));
         postalCodeTableColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         phoneNumberTableColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        refreshCustomerTable();
+    }
+
+    public void refreshCustomerTable() {
         try {
             customerTableView.setItems(Customer.getAll());
+            customerTableView.refresh();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,6 +104,7 @@ public class CustomerScreenController extends MyController {
      * Redirects the user to the Customer Form.
      */
     public void addButtonListener() {
+        ((CustomerFormController)getController("customer_form")).initializeAddCustomerForm();
         setScene("customer_form");
     }
 
@@ -104,6 +113,40 @@ public class CustomerScreenController extends MyController {
      * Redirects the user to the Customer Form.
      */
     public void modifyButtonListener() {
+        Customer selected = customerTableView.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            return;
+        }
+        ((CustomerFormController)getController("customer_form")).initializeModifyCustomerForm(selected);
         setScene("customer_form");
+    }
+
+    /**
+     * Called when the Delete button is pressed.
+     * If a Customer is selected, then a diologue box appears.
+     */
+    public void deleteButtonListener() {
+        Customer selected = customerTableView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
+        }
+        String alertMessage = "Are you sure you want to delete this Customer?";
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, alertMessage, ButtonType.CANCEL, ButtonType.YES);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            try {
+                for (Appointment app : Appointment.getByCustomerId(selected.getCustomerId())) {
+                    app.deleteFromDb();
+                }
+                selected.deleteFromDb();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            refreshCustomerTable();
+            Alert alert2 = new Alert(Alert.AlertType.INFORMATION, "Customer successfully deleted.", ButtonType.OK);
+            alert2.showAndWait();
+        }
     }
 }

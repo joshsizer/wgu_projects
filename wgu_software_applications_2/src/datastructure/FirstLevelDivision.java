@@ -1,5 +1,7 @@
 package datastructure;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import main.ConnectionManager;
 
 import java.sql.PreparedStatement;
@@ -101,6 +103,21 @@ public class FirstLevelDivision {
         return null;
     }
 
+    public static ObservableList<FirstLevelDivision> getByCountryId(int id) throws SQLException {
+        String sql = "SELECT * FROM WJ07mIl.first_level_divisions WHERE COUNTRY_ID = ?";
+        PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
+        stmt.setInt(1, id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        ObservableList<FirstLevelDivision> ret = FXCollections.observableArrayList();
+
+        while (resultSet.next()) {
+            ret.add(getFromRow(resultSet));
+        }
+
+        return ret;
+    }
+
     /**
      * Returns a FLD object from the current cursor in a ResultSet.
      *
@@ -182,5 +199,21 @@ public class FirstLevelDivision {
                 + " | Created_By: " + this.createdBy
                 + " | Last_Update: " + this.lastUpdateDate
                 + " | Last_Updated_By: " + this.lastUpdateBy;
+    }
+
+    /**
+     * Returns true if the object passed is a FLD
+     * and its ID is equal to this FLD's ID.
+     * @param other The object to compare.
+     * @return True if the object passed is a FLD and its ID is
+     * equal to this FLD's ID.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof FirstLevelDivision)) {
+            return false;
+        }
+        FirstLevelDivision otherC = (FirstLevelDivision)other;
+        return otherC.getDivisionId() == this.getDivisionId();
     }
 }

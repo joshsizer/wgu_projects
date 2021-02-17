@@ -10,17 +10,17 @@
 
 <AnchorPane prefHeight="566.0" prefWidth="983.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AppointmentScreenController">
     <children>
-        <TableView layoutX="59.0" layoutY="104.0" prefHeight="387.0" prefWidth="863.0">
+        <TableView fx:id="appointmentTableView" layoutX="59.0" layoutY="104.0" prefHeight="387.0" prefWidth="863.0">
             <columns>
-                <TableColumn prefWidth="110.39999008178711" text="Appointment_ID" />
-                <TableColumn prefWidth="62.4000244140625" text="Title" />
-                <TableColumn prefWidth="81.59999084472656" text="Description" />
-                <TableColumn prefWidth="94.4000244140625" text="Location" />
-                <TableColumn prefWidth="86.4000244140625" text="Contact" />
-                <TableColumn prefWidth="83.2000732421875" text="Type" />
-                <TableColumn prefWidth="113.5999755859375" text="Start Datetime" />
-                <TableColumn prefWidth="113.5999755859375" text="End Datetime" />
-                <TableColumn prefWidth="113.5999755859375" text="Customer_ID" />
+                <TableColumn fx:id="appointmentIdTableColumn" prefWidth="110.39999008178711" text="Appointment_ID" />
+                <TableColumn fx:id="titleTableColumn" prefWidth="62.4000244140625" text="Title" />
+                <TableColumn fx:id="descriptionTableColumn" prefWidth="81.59999084472656" text="Description" />
+                <TableColumn fx:id="locationTableColumn" prefWidth="94.4000244140625" text="Location" />
+                <TableColumn fx:id="contactTableColumn" prefWidth="86.4000244140625" text="Contact" />
+                <TableColumn fx:id="typeTableColumn" prefWidth="83.2000732421875" text="Type" />
+                <TableColumn fx:id="startDateTimeTableColumn" prefWidth="113.5999755859375" text="Start Datetime" />
+                <TableColumn fx:id="endDateTimeTableColumn" prefWidth="113.5999755859375" text="End Datetime" />
+                <TableColumn fx:id="customerIdTableColumn" prefWidth="113.5999755859375" text="Customer_ID" />
             </columns>
         </TableView>
         <Label layoutX="60.0" layoutY="32.0" text="Appointments">

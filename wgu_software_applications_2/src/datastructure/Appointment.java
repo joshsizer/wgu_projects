@@ -1,5 +1,7 @@
 package datastructure;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import main.ConnectionManager;
 
 import java.sql.PreparedStatement;
@@ -128,6 +130,29 @@ public class Appointment {
     }
 
     /**
+     * Returns an Appointment based on its Customer_ID.
+     *
+     * @param id The Customer_ID, for the Appointment.
+     * @return The Appointment associated with this id.
+     * @throws SQLException if a database access error occurs
+     *          or this method is called on on a closed connection.
+     */
+    public static ObservableList<Appointment> getByCustomerId(int id) throws SQLException {
+        String sql = "SELECT * FROM WJ07mIl.appointments WHERE Customer_ID = ?";
+        PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
+        stmt.setInt(1, id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        ObservableList<Appointment> ret = FXCollections.observableArrayList();
+
+        if (resultSet.next()) {
+            ret.add(getFromRow(resultSet));
+        }
+
+        return ret;
+    }
+
+    /**
      * Returns an Appointment object from the current cursor in a ResultSet.
      *
      * @param currentRow A ResultSet that contains every column of the appointments table
@@ -166,18 +191,121 @@ public class Appointment {
      * @throws SQLException if a database access error occurs
      * or this method is called on on a closed connection.
      */
-    public static ArrayList<Appointment> getAll() throws SQLException {
+    public static ObservableList<Appointment> getAll() throws SQLException {
         String sql = "SELECT * FROM WJ07mIl.appointments";
         PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
         ResultSet resultSet = stmt.executeQuery();
 
-        ArrayList<Appointment> ret = new ArrayList<>();
+        ObservableList<Appointment> ret = FXCollections.observableArrayList();
 
         while (resultSet.next()) {
             ret.add(getFromRow(resultSet));
         }
 
         return ret;
+    }
+
+    /**
+     * The Appointment row in the database with this
+     * Appointment's ID is deleted.
+     * @throws SQLException if a database access error occurs
+     *                   or this method is called on on a closed connection.
+     */
+    public void deleteFromDb() throws SQLException {
+        String sql = "DELETE FROM WJ07mIl.appointments WHERE Appointment_ID = ?";
+        PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
+        stmt.setInt(1, this.appointmentId);
+        stmt.execute();
+    }
+
+    /**
+     * Get this Appointment's ID.
+     * @return This Appointment's ID.
+     */
+    public int getAppointmentId() {
+        return this.appointmentId;
+    }
+
+    /**
+     * Get this Appointment's Title.
+     * @return This Appointment's Title.
+     */
+    public String getTitle() {
+        return this.title;
+    }
+
+    /**
+     * Get this Appointment's Description.
+     * @return This Appointment's Description.
+     */
+    public String getDescription() {
+        return this.description;
+    }
+
+    /**
+     * Get this Appointment's Location.
+     * @return This Appointment's Location.
+     */
+    public String getLocation() {
+        return this.location;
+    }
+
+    /**
+     * Get this Appointment's Type.
+     * @return This Appointment's Type.
+     */
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * Get this Appointment's Customer ID.
+     * @return This Appointment's Customer ID.
+     */
+    public int getCustomerId() {
+        return this.customerId;
+    }
+
+    /**
+     * Get this Appointment's User ID.
+     * @return This Appointment's User ID.
+     */
+    public int getUserId() {
+        return this.userId;
+    }
+
+    /**
+     * Get this Appointment's Contact ID.
+     * @return This Appointment's Contact ID.
+     */
+    public int getContactId() {
+        return this.contactId;
+    }
+
+    /**
+     * Get this Appointment's Contact Name.
+     * @return This Appointment's Contact Name.
+     * @throws SQLException if a database access error occurs
+     *      * or this method is called on on a closed connection.
+     */
+    public String getContactName() throws SQLException {
+        return Contact.getById(getContactId()).getContactName();
+    }
+
+    /**
+     * Get this Appointment's Start Date Time.
+     * @return This Appointment's Start Date Time.
+     */
+    public String getStartDateTime() {
+        return this.start.withZoneSameInstant(ZoneId.systemDefault()).toString();
+    }
+
+    /**
+     * Get this Appointment's End Date Time.
+     * @return This Appointment's End Date Time.
+     */
+    public String getEndDateTime() {
+        return this.end.withZoneSameInstant(ZoneId.systemDefault()).toString();
     }
 
     /**

@@ -9,7 +9,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.sql.*;
+import java.time.Instant;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.TimeZone;
 
@@ -65,6 +67,10 @@ public class Main extends Application {
         for (Contact fld : flds) {
             System.out.println(fld);
         }
+
+        System.out.println(Instant.now());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("UTC"));
+        System.out.println(formatter.format(Instant.now()));
 
         primaryStage.setTitle("Scheduling Software");
         primaryStage.setScene(appointmentFormController.getApplicationContext().getAppScreen("login_form").getScene());
