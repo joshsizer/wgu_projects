@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class Main extends Application {
@@ -20,6 +21,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //TimeZone.setDefault( TimeZone.getTimeZone( "Pacific/Auckland" ));
+        //Locale.setDefault(Locale.forLanguageTag("fr"));
 
         FXMLLoader loginFormLoader = new FXMLLoader(getClass().getResource("../fxml/login_form.fxml"));
         Scene loginFormScene = new Scene(loginFormLoader.load());
@@ -71,6 +73,7 @@ public class Main extends Application {
         System.out.println(Instant.now());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("UTC"));
         System.out.println(formatter.format(Instant.now()));
+        System.out.println(Locale.getDefault().getLanguage());
 
         primaryStage.setTitle("Scheduling Software");
         primaryStage.setScene(appointmentFormController.getApplicationContext().getAppScreen("login_form").getScene());

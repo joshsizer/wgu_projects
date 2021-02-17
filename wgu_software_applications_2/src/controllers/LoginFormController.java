@@ -2,11 +2,13 @@ package controllers;
 
 import datastructure.User;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.sql.SQLException;
 import java.time.ZoneId;
+import java.util.Locale;
 
 /**
  * The Controller class for the Login Form.
@@ -26,10 +28,29 @@ public class LoginFormController extends MyController {
     private TextField passwordTextField;
 
     /**
+     * The Label used to show the header information.
+     */
+    @FXML
+    private Label headerLabel;
+
+    /**
      * The Label used to display the User's ZoneId.
      */
     @FXML
     private Label locationLabel;
+
+    /**
+     * The Label used to denote the username TextField.
+     */
+    @FXML
+    private Label userNameLabel;
+
+    /**
+     * The Label used to denote the password TextField.
+     */
+    @FXML
+    private Label passwordLabel;
+
 
     /**
      * The Label used to display login error messages.
@@ -38,11 +59,26 @@ public class LoginFormController extends MyController {
     private Label loginErrorLabel;
 
     /**
+     * The Submit button for attempting to Log In.
+     */
+    @FXML
+    private Button submitButton;
+
+    /**
      * Called when this controller is first loaded.
      * Blanks out the login form and sets the User's Location.
      */
     public void initialize() {
-        locationLabel.setText("Location: " + ZoneId.systemDefault());
+        if (Locale.getDefault().getLanguage().equals("fr")) {
+            headerLabel.setText("Formulaire de Connexion");
+            locationLabel.setText("Lieu: " + ZoneId.systemDefault());
+            userNameLabel.setText("Nom d'utilisateur:");
+            passwordLabel.setText("Le mot de passe:");
+            submitButton.setText("Connexion");
+        } else {
+            locationLabel.setText("Location: " + ZoneId.systemDefault());
+        }
+
         userNameTextField.setText("");
         passwordTextField.setText("");
         loginErrorLabel.setText("");
@@ -68,10 +104,18 @@ public class LoginFormController extends MyController {
         }
 
         if (currentUser == null) {
-            loginErrorLabel.setText("Error: please enter a valid username");
+            if (Locale.getDefault().getLanguage().equals("fr")) {
+                loginErrorLabel.setText("Erreur: veuillez saisir un nom d'utilisateur valide");
+            } else {
+                loginErrorLabel.setText("Error: please enter a valid username");
+            }
             return;
         } else if (!password.equals(currentUser.getPassword())) {
-            loginErrorLabel.setText("Error: password incorrect");
+            if (Locale.getDefault().getLanguage().equals("fr")) {
+                loginErrorLabel.setText("Erreur: mot de passe incorrect");
+            } else {
+                loginErrorLabel.setText("Error: password incorrect");
+            }
             return;
         }
 
