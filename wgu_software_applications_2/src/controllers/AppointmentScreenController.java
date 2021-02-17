@@ -60,18 +60,24 @@ public class AppointmentScreenController extends MyController {
     TableColumn<Appointment, String> typeTableColumn;
 
     /**
+     * The Date column for the Appointment Table View.
+     */
+    @FXML
+    TableColumn<Appointment, String> dateTableColumn;
+
+    /**
      * The Start Date Time for the Appointment
      * Table View.
      */
     @FXML
-    TableColumn<Appointment, String> startDateTimeTableColumn;
+    TableColumn<Appointment, String> startTimeTableColumn;
 
     /**
      * The End Date Time for the Appointment
      * Table View.
      */
     @FXML
-    TableColumn<Appointment, String> endDateTimeTableColumn;
+    TableColumn<Appointment, String> endTimeTableColumn;
 
     /**
      * The Customer_ID column for the Appointment
@@ -90,8 +96,9 @@ public class AppointmentScreenController extends MyController {
         locationTableColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
         contactTableColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));;
         typeTableColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        startDateTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("startDateTime"));
-        endDateTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("endDateTime"));
+        dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("DateFormatted"));
+        startTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("StartTimeFormatted"));
+        endTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("EndTimeFormatted"));
         customerIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         refreshAppointmentTable();
     }

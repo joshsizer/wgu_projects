@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -187,7 +188,7 @@ public class Appointment {
     /**
      * Queries the database for all Appointments.
      *
-     * @return An ArrayList of Appointments from the database.
+     * @return An ObservableList of Appointments from the database.
      * @throws SQLException if a database access error occurs
      * or this method is called on on a closed connection.
      */
@@ -306,6 +307,36 @@ public class Appointment {
      */
     public String getEndDateTime() {
         return this.end.withZoneSameInstant(ZoneId.systemDefault()).toString();
+    }
+
+    /**
+     * Get the Appointment's Date formatted
+     * 'yyyy-MM-dd'.
+     * @return The Appointment's Date only in string format.
+     */
+    public String getDateFormatted() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault());
+        return formatter.format(this.start);
+    }
+
+    /**
+     * Get the Appointment's Start time formatted
+     * 'HH:mm:ss'.
+     * @return The Appointment's Start time in string format.
+     */
+    public String getStartTimeFormatted() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault());
+        return formatter.format(this.start);
+    }
+
+    /**
+     * Get the Appointment's End time formatted
+     * 'HH:mm:ss'.
+     * @return The Appointment's End time in string format.
+     */
+    public String getEndTimeFormatted() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault());
+        return formatter.format(this.end);
     }
 
     /**

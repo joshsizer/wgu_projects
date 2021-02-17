@@ -1,5 +1,8 @@
 package datastructure;
 
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import main.ConnectionManager;
 
 import java.sql.*;
@@ -112,16 +115,16 @@ public class User {
     /**
      * Queries the database for all Users.
      *
-     * @return An ArrayList of Users from the database.
+     * @return An ObservableList of Users from the database.
      * @throws SQLException if a database access error occurs
      * or this method is called on on a closed connection.
      */
-    public static ArrayList<User> getAll() throws SQLException {
+    public static ObservableList<User> getAll() throws SQLException {
         String sql = "SELECT * FROM WJ07mIl.users";
         PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
         ResultSet resultSet = stmt.executeQuery();
 
-        ArrayList<User> ret = new ArrayList<>();
+        ObservableList<User> ret = FXCollections.observableArrayList();
 
         while (resultSet.next()) {
             ret.add(getFromRow(resultSet));

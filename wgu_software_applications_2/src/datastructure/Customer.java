@@ -150,7 +150,7 @@ public class Customer {
     /**
      * Queries the database for all Customers.
      *
-     * @return An ArrayList of Customers from the database.
+     * @return An ObservableList of Customers from the database.
      * @throws SQLException if a database access error occurs
      * or this method is called on on a closed connection.
      */

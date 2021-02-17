@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="566.0" prefWidth="983.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AppointmentScreenController">
+<AnchorPane prefHeight="566.0" prefWidth="991.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AppointmentScreenController">
     <children>
-        <TableView fx:id="appointmentTableView" layoutX="59.0" layoutY="104.0" prefHeight="387.0" prefWidth="863.0">
+        <TableView fx:id="appointmentTableView" layoutX="64.0" layoutY="102.0" prefHeight="387.0" prefWidth="861.0">
             <columns>
                 <TableColumn fx:id="appointmentIdTableColumn" prefWidth="110.39999008178711" text="Appointment_ID" />
                 <TableColumn fx:id="titleTableColumn" prefWidth="62.4000244140625" text="Title" />
@@ -18,22 +18,26 @@
                 <TableColumn fx:id="locationTableColumn" prefWidth="94.4000244140625" text="Location" />
                 <TableColumn fx:id="contactTableColumn" prefWidth="86.4000244140625" text="Contact" />
                 <TableColumn fx:id="typeTableColumn" prefWidth="83.2000732421875" text="Type" />
-                <TableColumn fx:id="startDateTimeTableColumn" prefWidth="113.5999755859375" text="Start Datetime" />
-                <TableColumn fx:id="endDateTimeTableColumn" prefWidth="113.5999755859375" text="End Datetime" />
-                <TableColumn fx:id="customerIdTableColumn" prefWidth="113.5999755859375" text="Customer_ID" />
+            <TableColumn fx:id="dateTableColumn" prefWidth="86.400146484375" text="Date" />
+                <TableColumn fx:id="startTimeTableColumn" prefWidth="82.4000244140625" text="Start Time" />
+                <TableColumn fx:id="endTimeTableColumn" prefWidth="83.199951171875" text="End Time" />
+                <TableColumn fx:id="customerIdTableColumn" prefWidth="85.60009765625" text="Customer_ID" />
             </columns>
         </TableView>
-        <Label layoutX="60.0" layoutY="32.0" text="Appointments">
+        <Label layoutX="65.0" layoutY="30.0" text="Appointments">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>
         </Label>
-        <Button layoutX="60.0" layoutY="512.0" mnemonicParsing="false" onAction="#backButtonListener" text="Back" />
-        <Button layoutX="884.0" layoutY="512.0" mnemonicParsing="false" onAction="#addButtonListener" text="Add" />
-        <Button layoutX="819.0" layoutY="512.0" mnemonicParsing="false" onAction="#modifyButtonListener" text="Modify" />
-        <Button layoutX="756.0" layoutY="512.0" mnemonicParsing="false" text="Delete" />
-        <RadioButton layoutX="786.0" layoutY="71.0" mnemonicParsing="false" text="Monthly" />
-        <RadioButton layoutX="862.0" layoutY="71.0" mnemonicParsing="false" text="Weekly" />
-        <Label layoutX="60.0" layoutY="71.0" text="Month: February" />
+        <Button layoutX="64.0" layoutY="510.0" mnemonicParsing="false" onAction="#backButtonListener" text="Back" />
+        <Button layoutX="888.0" layoutY="510.0" mnemonicParsing="false" onAction="#addButtonListener" text="Add" />
+        <Button layoutX="823.0" layoutY="510.0" mnemonicParsing="false" onAction="#modifyButtonListener" text="Modify" />
+        <Button layoutX="760.0" layoutY="510.0" mnemonicParsing="false" text="Delete" />
+        <RadioButton layoutX="719.0" layoutY="69.0" mnemonicParsing="false" text="Month" />
+        <RadioButton layoutX="786.0" layoutY="69.0" mnemonicParsing="false" text="Week" />
+        <Label layoutX="65.0" layoutY="69.0" text="Month: February" />
+      <RadioButton layoutX="669.0" layoutY="69.0" mnemonicParsing="false" text="All" />
+      <Button layoutX="902.0" layoutY="65.0" mnemonicParsing="false" onAction="#addButtonListener" text="&gt;" />
+      <Button layoutX="865.0" layoutY="65.0" mnemonicParsing="false" onAction="#addButtonListener" text="&lt;" />
     </children>
 </AnchorPane>

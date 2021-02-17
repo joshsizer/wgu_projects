@@ -1,5 +1,7 @@
 package datastructure;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import main.ConnectionManager;
 
 import java.sql.PreparedStatement;
@@ -83,16 +85,16 @@ public class Contact {
     /**
      * Queries the database for all Contacts.
      *
-     * @return An ArrayList of Contacts from the database.
+     * @return An ObservableList of Contacts from the database.
      * @throws SQLException if a database access error occurs
      * or this method is called on on a closed connection.
      */
-    public static ArrayList<Contact> getAll() throws SQLException {
+    public static ObservableList<Contact> getAll() throws SQLException {
         String sql = "SELECT * FROM WJ07mIl.contacts";
         PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
         ResultSet resultSet = stmt.executeQuery();
 
-        ArrayList<Contact> ret = new ArrayList<>();
+        ObservableList<Contact> ret = FXCollections.observableArrayList();
 
         while (resultSet.next()) {
             ret.add(getFromRow(resultSet));

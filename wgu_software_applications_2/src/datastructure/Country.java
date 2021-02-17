@@ -116,7 +116,7 @@ public class Country {
     /**
      * Queries the database for all Countries.
      *
-     * @return An ArrayList of Countries from the database.
+     * @return An ObservableList of Countries from the database.
      * @throws SQLException if a database access error occurs
      * or this method is called on on a closed connection.
      */

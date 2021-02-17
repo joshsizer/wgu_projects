@@ -3,6 +3,7 @@ package main;
 import controllers.*;
 import datastructure.*;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,7 +21,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //TimeZone.setDefault( TimeZone.getTimeZone( "Pacific/Auckland" ));
+        //TimeZone.setDefault( TimeZone.getTimeZone( "America/Los_Angeles" ));
+        TimeZone.setDefault( TimeZone.getTimeZone( "Asia/Singapore" ));
+
         //Locale.setDefault(Locale.forLanguageTag("fr"));
 
         FXMLLoader loginFormLoader = new FXMLLoader(getClass().getResource("../fxml/login_form.fxml"));
@@ -65,7 +68,7 @@ public class Main extends Application {
             appScreen.getController().setApplicationContext(context);
         }
 
-        ArrayList<Contact> flds = Contact.getAll();
+        ObservableList<Contact> flds = Contact.getAll();
         for (Contact fld : flds) {
             System.out.println(fld);
         }

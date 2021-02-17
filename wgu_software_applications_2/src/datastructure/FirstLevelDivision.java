@@ -83,7 +83,7 @@ public class FirstLevelDivision {
     }
 
     /**
-     * Returns an FLD based on it's ID.
+     * Returns an FLD based on its ID.
      *
      * @param id The ID, primary key, for the First Level Division.
      * @return The FLD associated with this id.
@@ -103,6 +103,13 @@ public class FirstLevelDivision {
         return null;
     }
 
+    /**
+     * Returns an FLD based on its Country ID.
+     * @param id The Country ID to search on.
+     * @return A list of FLD's that correspond to the Country ID.
+     * @throws SQLException if a database access error occurs
+     *           or this method is called on on a closed connection.
+     */
     public static ObservableList<FirstLevelDivision> getByCountryId(int id) throws SQLException {
         String sql = "SELECT * FROM WJ07mIl.first_level_divisions WHERE COUNTRY_ID = ?";
         PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
