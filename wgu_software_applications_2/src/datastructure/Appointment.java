@@ -207,6 +207,27 @@ public class Appointment {
     }
 
     /**
+     * Returns the next available ID value for a new Appointment.
+     * @return The next available ID.
+     * @throws SQLException if a database access error occurs
+     *       or this method is called on on a closed connection.
+     */
+    public static int getNextId() throws SQLException {
+        String sql = "SELECT AUTO_INCREMENT\n" +
+                "FROM information_schema.TABLES\n" +
+                "WHERE TABLE_SCHEMA = \"WJ07mIl\"\n" +
+                "AND TABLE_NAME = \"appointments\"";
+        PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
+        ResultSet resultSet = stmt.executeQuery();
+
+        if (resultSet.next()) {
+            return resultSet.getInt("AUTO_INCREMENT");
+        }
+
+        return -1;
+    }
+
+    /**
      * The Appointment row in the database with this
      * Appointment's ID is deleted.
      * @throws SQLException if a database access error occurs
@@ -310,13 +331,23 @@ public class Appointment {
     }
 
     /**
-     * Get the Appointment's Date formatted
+     * Get the Appointment's Start Date formatted
      * 'yyyy-MM-dd'.
-     * @return The Appointment's Date only in string format.
+     * @return The Appointment's Start Date only in string format.
      */
-    public String getDateFormatted() {
+    public String getStartDateFormatted() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault());
         return formatter.format(this.start);
+    }
+
+    /**
+     * Get the Appointment's End Date formatted
+     * 'yyyy-MM-dd'.
+     * @return The Appointment's End Date only in string format.
+     */
+    public String getEndDateFormatted() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault());
+        return formatter.format(this.end);
     }
 
     /**

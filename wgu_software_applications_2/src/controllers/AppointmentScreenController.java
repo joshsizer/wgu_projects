@@ -96,7 +96,7 @@ public class AppointmentScreenController extends MyController {
         locationTableColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
         contactTableColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));;
         typeTableColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("DateFormatted"));
+        dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("StartDateFormatted"));
         startTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("StartTimeFormatted"));
         endTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("EndTimeFormatted"));
         customerIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
@@ -125,6 +125,7 @@ public class AppointmentScreenController extends MyController {
      * Redirects the user to the Appointment Form.
      */
     public void addButtonListener() {
+        ((AppointmentFormController)getController("appointment_form")).initializeAddAppointmentForm();
         setScene("appointment_form");
     }
 
@@ -133,6 +134,13 @@ public class AppointmentScreenController extends MyController {
      * Redirects the user to the Appointment Form.
      */
     public void modifyButtonListener() {
+        Appointment selected = appointmentTableView.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            return;
+        }
+
+        ((AppointmentFormController)getController("appointment_form")).initializeModifyAppointmentForm(selected);
         setScene("appointment_form");
     }
 

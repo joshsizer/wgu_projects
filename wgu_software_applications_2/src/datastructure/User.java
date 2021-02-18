@@ -92,6 +92,27 @@ public class User {
     }
 
     /**
+     * Returns a User based on its ID.
+     *
+     * @param id The ID, primary key, for the User.
+     * @return The User associated with this id.
+     * @throws SQLException if a database access error occurs
+     *          or this method is called on on a closed connection.
+     */
+    public static User getById(int id) throws SQLException {
+        String sql = "SELECT * FROM WJ07mIl.users WHERE User_ID = ?";
+        PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
+        stmt.setInt(1, id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        if (resultSet.next()) {
+            return getFromRow(resultSet);
+        }
+
+        return null;
+    }
+
+    /**
      * Returns a User object from the current cursor in a ResultSet.
      *
      * @param currentRow A ResultSet that contains every column of the user table

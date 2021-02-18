@@ -1,5 +1,6 @@
 package controllers;
 
+import datastructure.Appointment;
 import datastructure.Contact;
 import datastructure.Customer;
 import datastructure.User;
@@ -15,6 +16,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class AppointmentFormController extends MyController {
+    /**
+     * The current appointment being modified, or
+     * null if a new appointment is being added.
+     */
+    Appointment currentAppointment;
+
     /**
      * Private member to keep track of the last selected
      * start time.
@@ -112,6 +119,12 @@ public class AppointmentFormController extends MyController {
     private ComboBox<User> userComboBox;
 
     /**
+     * The label that error messages are written to.
+     */
+    @FXML
+    private Label errorMessageLabel;
+
+    /**
      * Called when this Controller is first loaded.
      */
     public void initialize() {
@@ -194,7 +207,23 @@ public class AppointmentFormController extends MyController {
      * is pressed. Blanks the Appointment Form.
      */
     public void initializeAddAppointmentForm() {
-
+        currentAppointment = null;
+        try {
+            appointmentIdTextField.setText(Integer.toString(Appointment.getNextId()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        titleTextField.setText("");
+        descriptionTextArea.setText("");
+        contactComboBox.getSelectionModel().select(0);
+        typeComboBox.getSelectionModel().select(0);
+        locationTextField.setText("");
+        startDatePicker.setValue(LocalDate.now());
+        endDatePicker.setValue(LocalDate.now());
+        startTimeComboBox.getSelectionModel().select(0);
+        endTimeComboBox.getSelectionModel().select(0);
+        customerComboBox.getSelectionModel().select(0);
+        userComboBox.getSelectionModel().select(0);
     }
 
     /**
@@ -202,11 +231,30 @@ public class AppointmentFormController extends MyController {
      * is pressed. Fills the Appointment Form with
      * the respective Appointment's details.
      */
-    public void initializeModifyCustomerForm() {
-
+    public void initializeModifyAppointmentForm(Appointment app) {
+        currentAppointment = app;
+        appointmentIdTextField.setText(Integer.toString(currentAppointment.getAppointmentId()));
+        titleTextField.setText(currentAppointment.getTitle());
+        descriptionTextArea.setText(currentAppointment.getDescription());
+        typeComboBox.getSelectionModel().select(currentAppointment.getType());
+        locationTextField.setText(currentAppointment.getLocation());
+        try {
+            contactComboBox.getSelectionModel().select(Contact.getById(currentAppointment.getContactId()));
+            customerComboBox.getSelectionModel().select(Customer.getById(currentAppointment.getCustomerId()));
+            userComboBox.getSelectionModel().select(User.getById(currentAppointment.getUserId()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        startDatePicker.setValue(LocalDate.parse(currentAppointment.getStartDateFormatted()));
+        endDatePicker.setValue(LocalDate.parse(currentAppointment.getEndDateFormatted()));
+        initializeTimeComboBoxes();
+        startTimeComboBox.getSelectionModel().select(currentAppointment.getStartTimeFormatted());
+        endTimeComboBox.getSelectionModel().select(currentAppointment.getEndTimeFormatted());
     }
 
     public void initializeTimeComboBoxes() {
+        String lastSelectedStartTime = startTimeComboBox.getSelectionModel().getSelectedItem();
+        String lastSelectedEndTime = endTimeComboBox.getSelectionModel().getSelectedItem();
         int leastHour = 8;
         int greatestHour = 22;
 
@@ -221,7 +269,6 @@ public class AppointmentFormController extends MyController {
         }
 
         startTimeComboBox.setItems(availableAppStartTimes);
-        startTimeComboBox.getSelectionModel().select(0);
 
         currentAppTime = endDatePicker.getValue().atTime(leastHour, 30).atZone(ZoneId.of("America/New_York"));
         while (currentAppTime.getHour() < greatestHour) {
@@ -232,7 +279,33 @@ public class AppointmentFormController extends MyController {
         availableAppEndTimes.add(formatter.format(currentAppTime));
 
         endTimeComboBox.setItems(availableAppEndTimes);
-        endTimeComboBox.getSelectionModel().select(0);
+
+        if (lastSelectedStartTime == null) {
+            startTimeComboBox.getSelectionModel().select(0);
+            endTimeComboBox.getSelectionModel().select(0);
+        } else {
+            boolean adjustStart = true;
+            boolean adjustEnd = true;
+            for (String startTime : startTimeComboBox.getItems()) {
+                if (startTime.equals(lastSelectedStartTime)) {
+                    adjustStart = false;
+                    break;
+                }
+            }
+            for (String endTime : endTimeComboBox.getItems()) {
+                if (endTime.equals(lastSelectedEndTime)) {
+                    adjustEnd = false;
+                    break;
+                }
+            }
+
+            if (adjustStart ) {
+                startTimeComboBox.getSelectionModel().select(0);
+            }
+            if (adjustEnd) {
+                endTimeComboBox.getSelectionModel().select(0);
+            }
+        }
 
         startTimeListener();
     }
@@ -245,6 +318,7 @@ public class AppointmentFormController extends MyController {
         if (startDatePicker.getValue().compareTo(endDatePicker.getValue()) > 0) {
             endDatePicker.setValue(startDatePicker.getValue());
         }
+        initializeTimeComboBoxes();
         startTimeListener();
     }
 
@@ -255,6 +329,7 @@ public class AppointmentFormController extends MyController {
         if (startDatePicker.getValue().compareTo(endDatePicker.getValue()) > 0) {
             endDatePicker.setValue(startDatePicker.getValue());
         }
+        initializeTimeComboBoxes();
         startTimeListener();
     }
 
@@ -264,6 +339,10 @@ public class AppointmentFormController extends MyController {
     public void startTimeListener() {
         int startTimeIndex = startTimeComboBox.getSelectionModel().getSelectedIndex();
         int endTimeIndex = endTimeComboBox.getSelectionModel().getSelectedIndex();
+        //System.out.println(startTimeComboBox.getValue());
+        if (startTimeComboBox.getValue() == null || endTimeComboBox.getValue() == null) {
+            return;
+        }
 
         LocalTime startTime = LocalTime.parse(startTimeComboBox.getValue());
         LocalTime endTime = LocalTime.parse(endTimeComboBox.getValue());
@@ -285,6 +364,10 @@ public class AppointmentFormController extends MyController {
     public void endTimeListener() {
         int startTimeIndex = startTimeComboBox.getSelectionModel().getSelectedIndex();
         int endTimeIndex = endTimeComboBox.getSelectionModel().getSelectedIndex();
+
+        if (startTimeComboBox.getValue() == null || endTimeComboBox.getValue() == null) {
+            return;
+        }
 
         LocalTime startTime = LocalTime.parse(startTimeComboBox.getValue());
         LocalTime endTime = LocalTime.parse(endTimeComboBox.getValue());
@@ -314,6 +397,7 @@ public class AppointmentFormController extends MyController {
      * screen change occurs.
      */
     public void saveButtonListener() {
+        String errorMessage = "";
         LocalTime startTime = LocalTime.parse(startTimeComboBox.getValue());
         LocalTime endTime = LocalTime.parse(endTimeComboBox.getValue());
         LocalDate startDate = startDatePicker.getValue();
@@ -322,8 +406,9 @@ public class AppointmentFormController extends MyController {
         ZonedDateTime startDateTime = startDate.atTime(startTime).atZone(ZoneId.systemDefault());
         ZonedDateTime endDateTime = endDate.atTime(endTime).atZone(ZoneId.systemDefault());
 
-        System.out.println(startDateTime.withZoneSameInstant(ZoneId.of("America/New_York")));
-        System.out.println(endDateTime.withZoneSameInstant(ZoneId.of("America/New_York")));
-        System.out.println("Difference: " + ChronoUnit.HOURS.between(startDateTime, endDateTime));
+        if (ChronoUnit.HOURS.between(startDateTime, endDateTime) > 14) {
+            errorMessage += "Error: an appointment must occur between 8am and 10pm EST.";
+        }
+        errorMessageLabel.setText(errorMessage);
     }
 }

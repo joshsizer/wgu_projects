@@ -73,10 +73,7 @@ public class Main extends Application {
             System.out.println(fld);
         }
 
-        System.out.println(Instant.now());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("UTC"));
-        System.out.println(formatter.format(Instant.now()));
-        System.out.println(Locale.getDefault().getLanguage());
 
         primaryStage.setTitle("Scheduling Software");
         primaryStage.setScene(appointmentFormController.getApplicationContext().getAppScreen("login_form").getScene());
