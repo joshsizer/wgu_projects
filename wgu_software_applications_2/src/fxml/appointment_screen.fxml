@@ -33,7 +33,7 @@
         <Button layoutX="70.0" layoutY="510.0" mnemonicParsing="false" onAction="#backButtonListener" text="Back" />
         <Button layoutX="981.0" layoutY="510.0" mnemonicParsing="false" onAction="#addButtonListener" text="Add" />
         <Button layoutX="916.0" layoutY="510.0" mnemonicParsing="false" onAction="#modifyButtonListener" text="Modify" />
-        <Button layoutX="853.0" layoutY="510.0" mnemonicParsing="false" text="Delete" />
+        <Button layoutX="853.0" layoutY="510.0" mnemonicParsing="false" onAction="#deleteButtonListener" text="Delete" />
         <RadioButton layoutX="811.0" layoutY="69.0" mnemonicParsing="false" text="Month" />
         <RadioButton layoutX="878.0" layoutY="69.0" mnemonicParsing="false" text="Week" />
         <Label layoutX="71.0" layoutY="69.0" text="Month: February" />
