@@ -5,6 +5,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -34,11 +35,14 @@
         <Button layoutX="981.0" layoutY="510.0" mnemonicParsing="false" onAction="#addButtonListener" text="Add" />
         <Button layoutX="916.0" layoutY="510.0" mnemonicParsing="false" onAction="#modifyButtonListener" text="Modify" />
         <Button layoutX="853.0" layoutY="510.0" mnemonicParsing="false" onAction="#deleteButtonListener" text="Delete" />
-        <RadioButton layoutX="811.0" layoutY="69.0" mnemonicParsing="false" text="Month" />
-        <RadioButton layoutX="878.0" layoutY="69.0" mnemonicParsing="false" text="Week" />
-        <Label layoutX="71.0" layoutY="69.0" text="Month: February" />
-      <RadioButton layoutX="761.0" layoutY="69.0" mnemonicParsing="false" text="All" />
-      <Button layoutX="994.0" layoutY="65.0" mnemonicParsing="false" onAction="#addButtonListener" text="&gt;" />
-      <Button layoutX="957.0" layoutY="65.0" mnemonicParsing="false" onAction="#addButtonListener" text="&lt;" />
+        <RadioButton fx:id="monthRadioButton" layoutX="811.0" layoutY="69.0" mnemonicParsing="false" onAction="#monthRadioButtonListener" text="Month">
+         <toggleGroup>
+            <ToggleGroup fx:id="appointmentFilterGroup" />
+         </toggleGroup></RadioButton>
+        <RadioButton fx:id="weekRadioButton" layoutX="878.0" layoutY="69.0" mnemonicParsing="false" onAction="#weekRadioButtonListener" text="Week" toggleGroup="$appointmentFilterGroup" />
+        <Label fx:id="currentPeriodLabel" layoutX="71.0" layoutY="69.0" text="Month: February" />
+      <RadioButton fx:id="allRadioButton" layoutX="761.0" layoutY="69.0" mnemonicParsing="false" onAction="#allRadioButtonListener" selected="true" text="All" toggleGroup="$appointmentFilterGroup" />
+      <Button layoutX="994.0" layoutY="65.0" mnemonicParsing="false" onAction="#nextPeriodButtonListener" text="&gt;" />
+      <Button layoutX="957.0" layoutY="65.0" mnemonicParsing="false" onAction="#lastPeriodButtonListener" text="&lt;" />
     </children>
 </AnchorPane>

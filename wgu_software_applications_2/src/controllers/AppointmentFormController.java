@@ -138,7 +138,7 @@ public class AppointmentFormController extends MyController {
             @Override
             protected void updateItem(Contact item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty ? "" : item.getContactName());
+                setText(empty ? "" : item.getContactName() + " (ID: " + item.getContactId() + ")");
             }
         };
 
@@ -165,7 +165,7 @@ public class AppointmentFormController extends MyController {
             @Override
             protected void updateItem(Customer item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty ? "" : item.getCustomerName());
+                setText(empty ? "" : item.getCustomerName() + " (ID: " + item.getCustomerId() + ")");
             }
         };
 
@@ -183,7 +183,7 @@ public class AppointmentFormController extends MyController {
             @Override
             protected void updateItem(User item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty ? "" : item.getUserName());
+                setText(empty ? "" : item.getUserName() + " (ID: " + item.getUserId() + ")");
             }
         };
 

@@ -226,6 +226,18 @@ public class Appointment {
         return ret;
     }
 
+    public static ObservableList<Appointment> getBetween(ZonedDateTime start, ZonedDateTime end) throws SQLException {
+        ObservableList<Appointment> toRet = FXCollections.observableArrayList();
+        for (Appointment app : Appointment.getAll()) {
+            if ((app.getStartZonedDateTime().isAfter(start)
+                    || app.getStartZonedDateTime().equals(start))
+                    && (app.getEndZonedDateTime().isBefore(end) || app.getEndZonedDateTime().equals(end))) {
+                toRet.add(app);
+            }
+        }
+        return toRet;
+    }
+
     /**
      * Returns the next available ID value for a new Appointment.
      * @return The next available ID.

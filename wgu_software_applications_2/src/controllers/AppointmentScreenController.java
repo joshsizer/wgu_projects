@@ -1,98 +1,137 @@
 package controllers;
 
 import datastructure.Appointment;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class AppointmentScreenController extends MyController {
+
+    /**
+     * Keeps track of the currently selected time filter start
+     */
+    private ZonedDateTime currentPeriodStart;
+
+    /**
+     * Keeps track of the currently selected time filter end
+     */
+    private ZonedDateTime currentPeriodEnd;
 
     /**
      * The TableView for displaying a list
      * of Appointments.
      */
     @FXML
-    TableView<Appointment> appointmentTableView;
+    private TableView<Appointment> appointmentTableView;
 
     /**
      * The Appointment_ID column for the Appointment
      * Table View.
      */
     @FXML
-    TableColumn<Appointment, Integer> appointmentIdTableColumn;
+    private TableColumn<Appointment, Integer> appointmentIdTableColumn;
 
     /**
      * The Title column for the Appointment
      * Table View.
      */
     @FXML
-    TableColumn<Appointment, String> titleTableColumn;
+    private TableColumn<Appointment, String> titleTableColumn;
 
     /**
      * The Description column for the Appointment
      * Table View.
      */
     @FXML
-    TableColumn<Appointment, String> descriptionTableColumn;
+    private TableColumn<Appointment, String> descriptionTableColumn;
 
     /**
      * The Location column for the Appointment
      * Table View.
      */
     @FXML
-    TableColumn<Appointment, String> locationTableColumn;
+    private TableColumn<Appointment, String> locationTableColumn;
 
     /**
      * The Contact column for the Appointment
      * Table View.
      */
     @FXML
-    TableColumn<Appointment, String> contactTableColumn;
+    private TableColumn<Appointment, String> contactTableColumn;
 
     /**
      * The Type column for the Appointment
      * Table View.
      */
     @FXML
-    TableColumn<Appointment, String> typeTableColumn;
+    private TableColumn<Appointment, String> typeTableColumn;
 
     /**
      * The Start Date column for the Appointment Table View.
      */
     @FXML
-    TableColumn<Appointment, String> startDateTableColumn;
+    private TableColumn<Appointment, String> startDateTableColumn;
 
     /**
      * The End Date column for the Appointment Table View.
      */
     @FXML
-    TableColumn<Appointment, String> endDateTableColumn;
+    private TableColumn<Appointment, String> endDateTableColumn;
 
     /**
      * The Start Date Time for the Appointment
      * Table View.
      */
     @FXML
-    TableColumn<Appointment, String> startTimeTableColumn;
+    private TableColumn<Appointment, String> startTimeTableColumn;
 
     /**
      * The End Date Time for the Appointment
      * Table View.
      */
     @FXML
-    TableColumn<Appointment, String> endTimeTableColumn;
+    private TableColumn<Appointment, String> endTimeTableColumn;
 
     /**
      * The Customer_ID column for the Appointment
      * Table View.
      */
     @FXML
-    TableColumn<Appointment, Integer> customerIdTableColumn;
+    private TableColumn<Appointment, Integer> customerIdTableColumn;
+
+    /**
+     * The All Radio Button for filtering
+     * the displayed Appointments.
+     */
+    @FXML
+    private RadioButton allRadioButton;
+
+    /**
+     * The Month Radio Button for filtering
+     * the displayed Appointments.
+     */
+    @FXML
+    private RadioButton monthRadioButton;
+
+    /**
+     * The Week Radio Button for filtering
+     * the displayed Appointments.
+     */
+    @FXML
+    private RadioButton weekRadioButton;
+
+    @FXML
+    private Label currentPeriodLabel;
 
     /**
      * Called when this controller is first loaded.
@@ -109,16 +148,25 @@ public class AppointmentScreenController extends MyController {
         startTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("StartTimeFormatted"));
         endTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("EndTimeFormatted"));
         customerIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        updateCurrentPeriodLabelForAll();
         refreshAppointmentTable();
+        currentPeriodStart = ZonedDateTime.now().withZoneSameInstant(ZoneId.systemDefault());
+        currentPeriodEnd = ZonedDateTime.now().withZoneSameInstant(ZoneId.systemDefault());
     }
 
     public void refreshAppointmentTable() {
+        ObservableList<Appointment> appsToDisplay = FXCollections.observableArrayList();
         try {
-            appointmentTableView.setItems(Appointment.getAll());
-            appointmentTableView.refresh();
+            if (allRadioButton.isSelected()) {
+                appsToDisplay = Appointment.getAll();
+            } else {
+                appsToDisplay = Appointment.getBetween(currentPeriodStart, currentPeriodEnd);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        appointmentTableView.setItems(appsToDisplay);
+        appointmentTableView.refresh();
     }
 
     /**
@@ -180,4 +228,129 @@ public class AppointmentScreenController extends MyController {
         }
     }
 
+    /**
+     * Called when the All radio button is pressed.
+     */
+    public void allRadioButtonListener() {
+        currentPeriodStart = setTimeToStartOfDay(ZonedDateTime.now().withZoneSameInstant(ZoneId.systemDefault()));
+        currentPeriodEnd = setTimeToEndOfDay(ZonedDateTime.now().withZoneSameInstant(ZoneId.systemDefault()));
+        updateCurrentPeriodLabelForAll();
+        refreshAppointmentTable();
+    }
+
+    /**
+     * Called when the Month radio button is pressed.
+     */
+    public void monthRadioButtonListener() {
+        currentPeriodStart = currentPeriodStart.withDayOfMonth(1);
+        currentPeriodEnd = currentPeriodStart.withDayOfMonth(currentPeriodStart.toLocalDate().lengthOfMonth());
+
+        currentPeriodStart = setTimeToStartOfDay(currentPeriodStart);
+        currentPeriodEnd = setTimeToEndOfDay(currentPeriodEnd);
+
+        updateCurrentPeriodLabelForMonth();
+        refreshAppointmentTable();
+    }
+
+    /**
+     * Called when the Week radio button is pressed.
+     */
+    public void weekRadioButtonListener() {
+        currentPeriodEnd = currentPeriodStart;
+        while (currentPeriodStart.getDayOfWeek() != DayOfWeek.MONDAY) {
+            currentPeriodStart = currentPeriodStart.minusDays(1);
+        }
+
+        while (currentPeriodEnd.getDayOfWeek() != DayOfWeek.SUNDAY) {
+            currentPeriodEnd = currentPeriodEnd.plusDays(1);
+        }
+        currentPeriodStart = setTimeToStartOfDay(currentPeriodStart);
+        currentPeriodEnd = setTimeToEndOfDay(currentPeriodEnd);
+
+        updateCurrentPeriodLabelForWeek();
+        refreshAppointmentTable();
+    }
+
+    /**
+     * Called when the user pressed the "<"
+     * button to scroll to the last time period.
+     */
+    public void lastPeriodButtonListener() {
+        if (allRadioButton.isSelected()) {
+            return;
+        } else if (monthRadioButton.isSelected()) {
+            currentPeriodStart = currentPeriodStart.minusMonths(1);
+            currentPeriodEnd = currentPeriodStart.withDayOfMonth(currentPeriodStart.toLocalDate().lengthOfMonth());
+            updateCurrentPeriodLabelForMonth();
+        } else {
+            currentPeriodStart = currentPeriodStart.minusDays(7);
+            currentPeriodEnd = currentPeriodEnd.minusDays(7);
+            updateCurrentPeriodLabelForWeek();
+        }
+
+        currentPeriodStart = setTimeToStartOfDay(currentPeriodStart);
+        currentPeriodEnd = setTimeToEndOfDay(currentPeriodEnd);
+        refreshAppointmentTable();
+    }
+
+    /**
+     * Called when the user presses the ">"
+     * button to scroll to the next time period.
+     */
+    public void nextPeriodButtonListener() {
+        if (allRadioButton.isSelected()) {
+            return;
+        } else if (monthRadioButton.isSelected()) {
+            currentPeriodStart = currentPeriodStart.plusMonths(1);
+            currentPeriodEnd = currentPeriodStart.withDayOfMonth(currentPeriodStart.toLocalDate().lengthOfMonth());
+            updateCurrentPeriodLabelForMonth();
+        } else {
+            currentPeriodStart = currentPeriodStart.plusDays(7);
+            currentPeriodEnd = currentPeriodEnd.plusDays(7);
+            updateCurrentPeriodLabelForWeek();
+        }
+
+        currentPeriodStart = setTimeToStartOfDay(currentPeriodStart);
+        currentPeriodEnd = setTimeToEndOfDay(currentPeriodEnd);
+        refreshAppointmentTable();
+    }
+
+    /**
+     * Changes the Period Label to display the time
+     * range of the current week.
+     */
+    private void updateCurrentPeriodLabelForWeek() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd").withZone(ZoneId.systemDefault());
+        String start = formatter.format(currentPeriodStart);
+        String end = formatter.format(currentPeriodEnd);
+        currentPeriodLabel.setText("Week: " + start + " to " + end);
+    }
+
+    /**
+     * Changes the Period Label to display the name
+     * of the current month.
+     */
+    private void updateCurrentPeriodLabelForMonth() {
+        String currentMonth = currentPeriodStart.getMonth().name().toLowerCase();
+        char c[] = currentMonth.toCharArray();
+        c[0] = Character.toUpperCase(c[0]);
+        currentMonth = new String(c);
+        currentPeriodLabel.setText("Month: " + currentMonth);
+    }
+
+    /**
+     * Changes the Period Label to display the
+     * string "Viewing All Appointments"
+     */
+    private void updateCurrentPeriodLabelForAll() {
+        currentPeriodLabel.setText("Viewing All Appointments");
+    }
+
+    private ZonedDateTime setTimeToStartOfDay(ZonedDateTime time) {
+        return time.withHour(0).withMinute(0).withSecond(0).withNano(0);
+    }
+
+    private ZonedDateTime setTimeToEndOfDay(ZonedDateTime time) {
+        return time.withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+    }
 }
