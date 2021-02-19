@@ -397,6 +397,22 @@ public class Appointment {
     }
 
     /**
+     * Get this Appointment's Start ZonedDateTime.
+     * @return This Appointment's Start ZonedDateTime.
+     */
+    public ZonedDateTime getStartZonedDateTime() {
+        return this.start;
+    }
+
+    /**
+     * Get this Appointment's End ZonedDateTime.
+     * @return This Appointment's End ZonedDateTime.
+     */
+    public ZonedDateTime getEndZonedDateTime() {
+        return this.end;
+    }
+
+    /**
      * Get this Appointment's End Date Time.
      * @return This Appointment's End Date Time.
      */

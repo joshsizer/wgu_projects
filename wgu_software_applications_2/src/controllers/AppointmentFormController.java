@@ -444,6 +444,25 @@ public class AppointmentFormController extends MyController {
 
         String lastUpdatedBy = getApplicationContext().getCurrentUser().getUserName();
 
+        ObservableList<Appointment> apps = FXCollections.observableArrayList();
+        try {
+            apps = Appointment.getAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for (Appointment app : apps) {
+            if (app.getCustomerId() == customer.getCustomerId() ) {
+                if ((startDateTime.isAfter(app.getStartZonedDateTime())
+                        && startDateTime.isBefore(app.getEndZonedDateTime()))
+                    || (endDateTime.isAfter(app.getStartZonedDateTime())
+                        && endDateTime.isBefore(app.getEndZonedDateTime()))) {
+                    errorMessage += "Error: selected dates and times causes customer to have overlapping appointments.\n";
+                    break;
+                }
+            }
+        }
+
         errorMessageLabel.setText(errorMessage);
         if (!"".equals(errorMessage)) {
             return;

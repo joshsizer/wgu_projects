@@ -1,7 +1,6 @@
 package controllers;
 
 import datastructure.Appointment;
-import datastructure.Customer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -174,7 +173,9 @@ public class AppointmentScreenController extends MyController {
                 e.printStackTrace();
             }
             refreshAppointmentTable();
-            Alert alert2 = new Alert(Alert.AlertType.INFORMATION, "Appointment successfully deleted.", ButtonType.OK);
+            alertMessage = "Appointment with ID " + selected.getAppointmentId() +
+                    " of type " + selected.getType() + " deleted.";
+            Alert alert2 = new Alert(Alert.AlertType.INFORMATION, alertMessage, ButtonType.OK);
             alert2.showAndWait();
         }
     }
