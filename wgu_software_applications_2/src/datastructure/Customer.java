@@ -397,4 +397,21 @@ public class Customer {
                 + " | Last_Update: " + this.lastUpdateDate
                 + " | Last_Updated_By: " + this.lastUpdateBy;
     }
+
+    /**
+     * Returns true if the object passed
+     * is a Customer and its ID is equal to this
+     * Customer's ID.
+     * @param other The object to compare.
+     * @return True if this Customer's ID is equal to the passed
+     * object's ID.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Customer)) {
+            return false;
+        }
+        Customer otherC = (Customer)other;
+        return otherC.getCustomerId() == this.getCustomerId();
+    }
 }

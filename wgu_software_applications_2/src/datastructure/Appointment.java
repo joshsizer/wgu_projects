@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 /**
  * Represents Appointments in this Application.
@@ -131,6 +130,27 @@ public class Appointment {
     }
 
     /**
+     * Returns an Appointment based on its ID.
+     *
+     * @param id The ID, primary key, for the Appointment.
+     * @return The Appointment associated with this id.
+     * @throws SQLException if a database access error occurs
+     *          or this method is called on on a closed connection.
+     */
+    public static Appointment getById(int id) throws SQLException {
+        String sql = "SELECT * FROM WJ07mIl.appointments WHERE Appointment_ID = ?";
+        PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
+        stmt.setInt(1, id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        if (resultSet.next()) {
+            return getFromRow(resultSet);
+        }
+
+        return null;
+    }
+
+    /**
      * Returns an Appointment based on its Customer_ID.
      *
      * @param id The Customer_ID, for the Appointment.
@@ -225,6 +245,60 @@ public class Appointment {
         }
 
         return -1;
+    }
+
+    /**
+     * If an Appointment with this Appointment_ID exists
+     * in the database, then that record is updated.
+     * If not, a new record is inserted.
+     * @throws SQLException if a database access error occurs
+     *             or this method is called on on a closed connection.
+     */
+    public void saveToDb() throws SQLException {
+        String updateSql = "UPDATE WJ07mIl.appointments\n" +
+                "SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = ?," +
+                " Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? \n" +
+                "WHERE Appointment_ID = ?";
+        String insertSql = "INSERT INTO WJ07mIl.appointments\n" +
+                "(Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By," +
+                " Customer_ID, User_ID, Contact_ID) \n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement stmt = null;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("UTC"));
+
+        if (Appointment.getById(this.getAppointmentId()) == null) {
+            stmt = ConnectionManager.getConnection().prepareStatement(insertSql);
+            stmt.setString(1, this.title);
+            stmt.setString(2, this.description);
+            stmt.setString(3, this.location);
+            stmt.setString(4, this.type);
+            stmt.setString(5, formatter.format(this.start));
+            stmt.setString(6, formatter.format(this.end));
+            stmt.setString(7, formatter.format(this.createdDate));
+            stmt.setString(8, this.createdBy);
+            stmt.setString(9, formatter.format(this.lastUpdateDate));
+            stmt.setString(10, this.lastUpdateBy);
+            stmt.setInt(11, this.customerId);
+            stmt.setInt(12, this.userId);
+            stmt.setInt(13, this.contactId);
+        } else {
+            stmt = ConnectionManager.getConnection().prepareStatement(updateSql);
+            stmt.setString(1, this.title);
+            stmt.setString(2, this.description);
+            stmt.setString(3, this.location);
+            stmt.setString(4, this.type);
+            stmt.setString(5, formatter.format(this.start));
+            stmt.setString(6, formatter.format(this.end));
+            stmt.setString(7, formatter.format(this.lastUpdateDate));
+            stmt.setString(8, this.lastUpdateBy);
+            stmt.setInt(9, this.customerId);
+            stmt.setInt(10, this.userId);
+            stmt.setInt(11, this.contactId);
+            stmt.setInt(12, this.appointmentId);
+        }
+
+        stmt.execute();
     }
 
     /**
@@ -368,6 +442,102 @@ public class Appointment {
     public String getEndTimeFormatted() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault());
         return formatter.format(this.end);
+    }
+
+    /**
+     * Set this Appointment's ID.
+     * @param id The new ID for this Appointment.
+     */
+    public void setAppointmentId(int id) {
+        this.appointmentId = id;
+    }
+
+    /**
+     * Set this Appointment's Title.
+     * @param title The new Title for this Appointment.
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Set this Appointment's Description.
+     * @param description The new Description for this Appointment.
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Set this Appointment's Location.
+     * @param location The new Location for this Appointment.
+     */
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    /**
+     * Set this Appointment's Type.
+     * @param type The new Type for this Appointment.
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * Set this Appointment's Contact ID.
+     * @param contactId The new Contact ID for this Appointment.
+     */
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
+    }
+
+    /**
+     * Set this Appointment's Customer ID.
+     * @param customerId The new Customer ID for this Appointment.
+     */
+    public void setCustomerId(int customerId) {
+       this.customerId = customerId;
+    }
+
+    /**
+     * Set this Appointment's User ID.
+     * @param userId The new User ID for this Appointment.
+     */
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    /**
+     * Set this Appointment's Start Date Time.
+     * @param startDateTime The new Appointment's Start Time.
+     */
+    public void setStartDateTime(ZonedDateTime startDateTime) {
+        this.start = startDateTime;
+    }
+
+    /**
+     * Set this Appointment's End Date Time.
+     * @param endDateTime The new Appointment's End Time.
+     */
+    public void setEndDateTime(ZonedDateTime endDateTime) {
+        this.end = endDateTime;
+    }
+
+    /**
+     * Set this Appointment's Last Update Date.
+     * @param lastUpdateDate The new Last Update Date for this Appointment.
+     */
+    public void setLastUpdateDate(ZonedDateTime lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
+    /**
+     * Set this Appointment's Last Update By.
+     * @param lastUpdateBy The new Last Update By for this Appointment.
+     */
+    public void setLastUpdateBy(String lastUpdateBy) {
+        this.lastUpdateBy = lastUpdateBy;
     }
 
     /**

@@ -220,6 +220,7 @@ public class AppointmentFormController extends MyController {
         locationTextField.setText("");
         startDatePicker.setValue(LocalDate.now());
         endDatePicker.setValue(LocalDate.now());
+        initializeTimeComboBoxes();
         startTimeComboBox.getSelectionModel().select(0);
         endTimeComboBox.getSelectionModel().select(0);
         customerComboBox.getSelectionModel().select(0);
@@ -233,6 +234,7 @@ public class AppointmentFormController extends MyController {
      */
     public void initializeModifyAppointmentForm(Appointment app) {
         currentAppointment = app;
+        errorMessageLabel.setText("");
         appointmentIdTextField.setText(Integer.toString(currentAppointment.getAppointmentId()));
         titleTextField.setText(currentAppointment.getTitle());
         descriptionTextArea.setText(currentAppointment.getDescription());
@@ -407,8 +409,78 @@ public class AppointmentFormController extends MyController {
         ZonedDateTime endDateTime = endDate.atTime(endTime).atZone(ZoneId.systemDefault());
 
         if (ChronoUnit.HOURS.between(startDateTime, endDateTime) > 14) {
-            errorMessage += "Error: an appointment must occur between 8am and 10pm EST.";
+            errorMessage += "Error: An appointment must occur between 8am and 10pm EST!\n";
         }
+
+        int id = Integer.parseInt(appointmentIdTextField.getText());
+
+        String title = titleTextField.getText();
+
+        if (title.length() < 1) {
+            errorMessage += "Title cannot be blank!\n";
+        }
+
+        String description = descriptionTextArea.getText();
+
+        if (description.length() < 1) {
+            errorMessage += "Description cannot be blank!\n";
+        }
+
+        String location = locationTextField.getText();
+
+        if (location.length() < 1) {
+            errorMessage += "Location cannot be blank!\n";
+        }
+
+        Contact contact = contactComboBox.getSelectionModel().getSelectedItem();
+
+        String type = typeComboBox.getSelectionModel().getSelectedItem();
+
+        Customer customer = customerComboBox.getSelectionModel().getSelectedItem();
+
+        User user = userComboBox.getSelectionModel().getSelectedItem();
+
+        ZonedDateTime lastUpdateDate = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC"));
+
+        String lastUpdatedBy = getApplicationContext().getCurrentUser().getUserName();
+
         errorMessageLabel.setText(errorMessage);
+        if (!"".equals(errorMessage)) {
+            return;
+        }
+
+        if (currentAppointment == null) {
+            ZonedDateTime createdDate = lastUpdateDate;
+            String createdBy = lastUpdatedBy;
+            Appointment newAppointment = new Appointment(id, title, description, location, type,
+                    customer.getCustomerId(), user.getUserId(), contact.getContactId(), startDateTime, endDateTime,
+                    createdDate, createdBy, lastUpdateDate, lastUpdatedBy);
+            try {
+                newAppointment.saveToDb();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            currentAppointment.setAppointmentId(id);
+            currentAppointment.setTitle(title);
+            currentAppointment.setDescription(description);
+            currentAppointment.setLocation(location);
+            currentAppointment.setType(type);
+            currentAppointment.setContactId(contact.getContactId());
+            currentAppointment.setCustomerId(customer.getCustomerId());
+            currentAppointment.setUserId(user.getUserId());
+            currentAppointment.setStartDateTime(startDateTime);
+            currentAppointment.setEndDateTime(endDateTime);
+            currentAppointment.setLastUpdateDate(lastUpdateDate);
+            currentAppointment.setLastUpdateBy(lastUpdatedBy);
+            try {
+                currentAppointment.saveToDb();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        ((AppointmentScreenController)getController("appointment_screen")).refreshAppointmentTable();
+        setScene("appointment_screen");
     }
 }

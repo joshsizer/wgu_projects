@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="547.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AppointmentFormController">
+<AnchorPane prefHeight="617.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AppointmentFormController">
     <children>
         <Label layoutX="66.0" layoutY="49.0" text="Appointment Form">
             <font>
@@ -25,17 +25,17 @@
         <TextField fx:id="appointmentIdTextField" disable="true" editable="false" layoutX="170.0" layoutY="108.0" />
         <TextField fx:id="titleTextField" layoutX="170.0" layoutY="148.0" />
         <ComboBox fx:id="contactComboBox" layoutX="169.0" layoutY="267.0" prefHeight="26.0" prefWidth="149.0" />
-        <Label fx:id="errorMessageLabel" layoutX="67.0" layoutY="375.0" prefHeight="18.0" prefWidth="250.0" text="Error: Title must not be blank!" />
-        <Button layoutX="596.0" layoutY="472.0" mnemonicParsing="false" onAction="#saveButtonListener" text="Save" />
-        <Button layoutX="535.0" layoutY="472.0" mnemonicParsing="false" onAction="#cancelButtonListener" text="Cancel" />
+        <Label fx:id="errorMessageLabel" alignment="TOP_LEFT" layoutX="65.0" layoutY="420.0" prefHeight="166.0" prefWidth="450.0" text="Error: Title must not be blank!" wrapText="true" />
+        <Button layoutX="596.0" layoutY="560.0" mnemonicParsing="false" onAction="#saveButtonListener" text="Save" />
+        <Button layoutX="535.0" layoutY="560.0" mnemonicParsing="false" onAction="#cancelButtonListener" text="Cancel" />
       <Label layoutX="375.0" layoutY="152.0" text="Start Date" />
       <Label layoutX="376.0" layoutY="192.0" text="Start time" />
       <Label layoutX="376.0" layoutY="272.0" text="End time" />
       <DatePicker fx:id="startDatePicker" layoutX="463.0" layoutY="148.0" onAction="#startDatePickerListener" />
       <TextField fx:id="locationTextField" layoutX="463.0" layoutY="108.0" />
       <TextArea fx:id="descriptionTextArea" layoutX="170.0" layoutY="194.0" prefHeight="51.0" prefWidth="150.0" wrapText="true" />
-      <Label layoutX="376.0" layoutY="312.0" text="Customer_ID" />
-      <Label layoutX="376.0" layoutY="352.0" text="User_ID" />
+      <Label layoutX="376.0" layoutY="312.0" text="Customer" />
+      <Label layoutX="376.0" layoutY="352.0" text="User" />
       <ComboBox fx:id="endTimeComboBox" layoutX="462.0" layoutY="267.0" onAction="#endTimeListener" prefHeight="26.0" prefWidth="149.0" />
       <ComboBox fx:id="startTimeComboBox" layoutX="462.0" layoutY="187.0" onAction="#startTimeListener" prefHeight="26.0" prefWidth="149.0" />
       <ComboBox fx:id="customerComboBox" layoutX="462.0" layoutY="307.0" prefHeight="26.0" prefWidth="149.0" />

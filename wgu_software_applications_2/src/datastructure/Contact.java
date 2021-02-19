@@ -139,4 +139,21 @@ public class Contact {
                 + " | Contact_Name: " + this.contactName
                 + " | Email: " + this.email;
     }
+
+    /**
+     * Returns true if the object passed
+     * is a Contact and its ID is equal to this
+     * contact's ID.
+     * @param other The object to compare.
+     * @return True if this Contact's ID is equal to the passed
+     * Contact's ID.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Contact)) {
+            return false;
+        }
+        Contact otherC = (Contact)other;
+        return otherC.getContactId() == this.getContactId();
+    }
 }

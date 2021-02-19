@@ -22,7 +22,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //TimeZone.setDefault( TimeZone.getTimeZone( "America/Los_Angeles" ));
-        TimeZone.setDefault( TimeZone.getTimeZone( "Asia/Singapore" ));
+        //TimeZone.setDefault( TimeZone.getTimeZone( "Asia/Singapore" ));
 
         //Locale.setDefault(Locale.forLanguageTag("fr"));
 

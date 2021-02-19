@@ -155,6 +155,14 @@ public class User {
     }
 
     /**
+     * Get this User's ID.
+     * @return This User's ID.
+     */
+    public int getUserId() {
+        return this.userId;
+    }
+
+    /**
      * Get this User's User Name.
      * @return This User's User Name.
      */
@@ -186,5 +194,22 @@ public class User {
                 + " | Created_By: " + this.createdBy
                 + " | Last_Update: " + this.lastUpdateDate
                 + " | Last_Updated_By: " + this.lastUpdateBy;
+    }
+
+    /**
+     * Returns true if the object passed
+     * is a User and its ID is equal to this
+     * User's ID.
+     * @param other The object to compare.
+     * @return True if this User's ID is equal to the passed
+     * User's ID.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof User)) {
+            return false;
+        }
+        User otherC = (User)other;
+        return otherC.getUserId() == this.getUserId();
     }
 }

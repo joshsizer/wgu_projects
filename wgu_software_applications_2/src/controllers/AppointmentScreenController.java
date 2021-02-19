@@ -60,10 +60,16 @@ public class AppointmentScreenController extends MyController {
     TableColumn<Appointment, String> typeTableColumn;
 
     /**
-     * The Date column for the Appointment Table View.
+     * The Start Date column for the Appointment Table View.
      */
     @FXML
-    TableColumn<Appointment, String> dateTableColumn;
+    TableColumn<Appointment, String> startDateTableColumn;
+
+    /**
+     * The End Date column for the Appointment Table View.
+     */
+    @FXML
+    TableColumn<Appointment, String> endDateTableColumn;
 
     /**
      * The Start Date Time for the Appointment
@@ -96,14 +102,15 @@ public class AppointmentScreenController extends MyController {
         locationTableColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
         contactTableColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));;
         typeTableColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("StartDateFormatted"));
+        startDateTableColumn.setCellValueFactory(new PropertyValueFactory<>("StartDateFormatted"));
+        endDateTableColumn.setCellValueFactory(new PropertyValueFactory<>("EndDateFormatted"));
         startTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("StartTimeFormatted"));
         endTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("EndTimeFormatted"));
         customerIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         refreshAppointmentTable();
     }
 
-    private void refreshAppointmentTable() {
+    public void refreshAppointmentTable() {
         try {
             appointmentTableView.setItems(Appointment.getAll());
             appointmentTableView.refresh();
