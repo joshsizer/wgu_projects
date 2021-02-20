@@ -6,8 +6,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.sql.SQLException;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Locale;
 
 /**
@@ -109,6 +116,7 @@ public class LoginFormController extends MyController {
             } else {
                 loginErrorLabel.setText("Error: please enter a valid username");
             }
+            writeLoginAttemptToFile(false);
             return;
         } else if (!password.equals(currentUser.getPassword())) {
             if (Locale.getDefault().getLanguage().equals("fr")) {
@@ -116,10 +124,36 @@ public class LoginFormController extends MyController {
             } else {
                 loginErrorLabel.setText("Error: password incorrect");
             }
+            writeLoginAttemptToFile(false);
             return;
         }
 
+        writeLoginAttemptToFile(true);
         getApplicationContext().setCurrentUser(currentUser);
+        ((HomeScreenController)getController("home_screen")).initializeOnLogin();
         setScene("home_screen");
+    }
+
+    /**
+     * Records each login attempt as a failure or success.
+     * @param success If the login attempt was successful.
+     */
+    private void writeLoginAttemptToFile(boolean success) {
+        ZonedDateTime now = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC"));
+        File toWrite = new File("login_activity.txt");
+        String textToWrite = now.toString() + ": ";
+        if (success) {
+            textToWrite += "success\n";
+        } else {
+            textToWrite += "failure\n";
+        }
+        try {
+            toWrite.createNewFile();
+            FileWriter myWriter = new FileWriter(toWrite, true);
+            myWriter.append(textToWrite);
+            myWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

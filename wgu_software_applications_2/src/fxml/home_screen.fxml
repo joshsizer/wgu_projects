@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="359.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeScreenController">
+<AnchorPane prefHeight="431.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeScreenController">
    <children>
       <Button layoutX="81.0" layoutY="101.0" mnemonicParsing="false" onAction="#viewAppointmentsButtonListener" text="View Appointments" />
       <Button layoutX="80.0" layoutY="137.0" mnemonicParsing="false" onAction="#viewCustomersButtonListener" prefHeight="26.0" prefWidth="120.0" text="View Customers" />
@@ -14,8 +14,8 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button layoutX="111.0" layoutY="304.0" mnemonicParsing="false" onAction="#logoutButtonListener" text="Log Out" />
-      <Label layoutX="39.0" layoutY="213.0" prefHeight="40.0" prefWidth="204.0" text="You have no scheduled appointments in the next 15 minutes." textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="111.0" layoutY="381.0" mnemonicParsing="false" onAction="#logoutButtonListener" text="Log Out" />
+      <Label fx:id="appointmentNotifyLabel" alignment="TOP_CENTER" layoutX="39.0" layoutY="213.0" prefHeight="155.0" prefWidth="204.0" text="You have no scheduled appointments in the next 15 minutes." textAlignment="CENTER" wrapText="true" />
       <Button layoutX="81.0" layoutY="174.0" mnemonicParsing="false" onAction="#viewReportsButtonListener" prefHeight="26.0" prefWidth="120.0" text="View Reports" />
    </children>
 </AnchorPane>

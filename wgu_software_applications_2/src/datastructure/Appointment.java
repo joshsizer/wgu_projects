@@ -231,7 +231,7 @@ public class Appointment {
         for (Appointment app : Appointment.getAll()) {
             if ((app.getStartZonedDateTime().isAfter(start)
                     || app.getStartZonedDateTime().equals(start))
-                    && (app.getEndZonedDateTime().isBefore(end) || app.getEndZonedDateTime().equals(end))) {
+                    && (app.getStartZonedDateTime().isBefore(end) || app.getStartZonedDateTime().equals(end))) {
                 toRet.add(app);
             }
         }

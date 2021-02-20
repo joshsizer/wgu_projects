@@ -132,6 +132,7 @@ public class AppointmentFormController extends MyController {
         titleTextField.setText("");
         descriptionTextArea.setText("");
         locationTextField.setText("");
+        errorMessageLabel.setText("");
 
         Callback<ListView<Contact>, ListCell<Contact>> contactFactory = lv -> new ListCell<Contact>() {
 
