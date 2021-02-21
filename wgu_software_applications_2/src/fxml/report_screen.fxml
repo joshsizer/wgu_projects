@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="696.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReportScreenController">
+   <children>
+      <Label layoutX="36.0" layoutY="68.0" text="Report 1 (Number by Type and Month)">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="36.0" layoutY="32.0" text="Reports">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="report1TextArea" editable="false" layoutX="36.0" layoutY="105.0" prefHeight="160.0" prefWidth="453.0" />
+      <Label layoutX="37.0" layoutY="304.0" text="Report 2 (Schedule)">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <TableView fx:id="appointmentTableView" layoutX="36.0" layoutY="373.0" prefHeight="227.0" prefWidth="950.0">
+         <columns>
+            <TableColumn fx:id="appointmentIdTableColumn" prefWidth="110.39999008178711" text="Appointment_ID" />
+            <TableColumn fx:id="titleTableColumn" prefWidth="62.4000244140625" text="Title" />
+            <TableColumn fx:id="descriptionTableColumn" prefWidth="81.59999084472656" text="Description" />
+            <TableColumn fx:id="locationTableColumn" prefWidth="94.4000244140625" text="Location" />
+            <TableColumn fx:id="typeTableColumn" prefWidth="118.4000244140625" text="Type" />
+            <TableColumn fx:id="startDateTableColumn" prefWidth="91.2000732421875" text="Start Date" />
+            <TableColumn fx:id="startTimeTableColumn" prefWidth="94.4000244140625" text="Start Time" />
+            <TableColumn fx:id="endDateTableColumn" prefWidth="95.2000732421875" text="End Date" />
+            <TableColumn fx:id="endTimeTableColumn" prefWidth="98.39990234375" text="End Time" />
+            <TableColumn fx:id="customerIdTableColumn" prefWidth="104.0" text="Customer_ID" />
+         </columns>
+      </TableView>
+      <ComboBox fx:id="contactComboBox" layoutX="87.0" layoutY="335.0" onAction="#contactComboBoxListener" prefWidth="150.0" />
+      <Label layoutX="37.0" layoutY="339.0" text="Contact" />
+      <Label layoutX="523.0" layoutY="68.0" text="Report 3 (Number By Customer_ID)">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="report3TextArea" editable="false" layoutX="523.0" layoutY="105.0" prefHeight="160.0" prefWidth="453.0" />
+      <Button layoutX="37.0" layoutY="638.0" mnemonicParsing="false" onAction="#backButtonListener" text="Back" />
+   </children>
+</AnchorPane>

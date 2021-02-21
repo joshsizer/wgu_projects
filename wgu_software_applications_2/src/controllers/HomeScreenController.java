@@ -69,6 +69,7 @@ public class HomeScreenController extends MyController {
      * Redirects the user to the Reports screen.
      */
     public void viewReportsButtonListener() {
+        ((ReportScreenController)getController("report_screen")).refresh();
         setScene("report_screen");
     }
 

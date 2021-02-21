@@ -17,6 +17,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.TimeZone;
 
+/**
+ * The Main Class where the main function for this
+ * Application resides.
+ *
+ * 2 Lambda expressions occur in the ReportScreenController class.
+ */
 public class Main extends Application {
 
     @Override
@@ -56,6 +62,11 @@ public class Main extends Application {
         AppointmentFormController appointmentFormController = (AppointmentFormController) appointmentFormLoader.getController();
         ApplicationScreen appointmentForm = new ApplicationScreen(appointmentFormScene, appointmentFormController);
 
+        FXMLLoader reportScreenLoader = new FXMLLoader(getClass().getResource("../fxml/report_screen.fxml"));
+        Scene reportScreenScene = new Scene(reportScreenLoader.load());
+        ReportScreenController reportScreenController = (ReportScreenController) reportScreenLoader.getController();
+        ApplicationScreen reportScreen = new ApplicationScreen(reportScreenScene, reportScreenController);
+
         ApplicationContext context = new ApplicationContext(primaryStage);
         context.addAppScreen("login_form", loginForm);
         context.addAppScreen("home_screen", homeScreen);
@@ -63,6 +74,7 @@ public class Main extends Application {
         context.addAppScreen("appointment_screen", appointmentScreen);
         context.addAppScreen("customer_form", customerForm);
         context.addAppScreen("appointment_form", appointmentForm);
+        context.addAppScreen("report_screen", reportScreen);
 
         for (ApplicationScreen appScreen : context.getHashMap().values()) {
             appScreen.getController().setApplicationContext(context);

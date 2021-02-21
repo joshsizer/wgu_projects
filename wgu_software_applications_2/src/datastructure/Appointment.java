@@ -151,7 +151,7 @@ public class Appointment {
     }
 
     /**
-     * Returns an Appointment based on its Customer_ID.
+     * Returns Appointments based on its Customer_ID.
      *
      * @param id The Customer_ID, for the Appointment.
      * @return The Appointment associated with this id.
@@ -166,7 +166,29 @@ public class Appointment {
 
         ObservableList<Appointment> ret = FXCollections.observableArrayList();
 
-        if (resultSet.next()) {
+        while (resultSet.next()) {
+            ret.add(getFromRow(resultSet));
+        }
+
+        return ret;
+    }
+
+    /**
+     * Returns an Appointment based on its Contact_ID.
+     *
+     * @param id The Contact_ID appointment associated with this id.
+     * @throws SQLException if a database access error occurs
+     *          or this method is called on on a closed connection.
+     */
+    public static ObservableList<Appointment> getByContactId(int id) throws SQLException {
+        String sql = "SELECT * FROM WJ07mIl.appointments WHERE Contact_ID = ?";
+        PreparedStatement stmt = ConnectionManager.getConnection().prepareStatement(sql);
+        stmt.setInt(1, id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        ObservableList<Appointment> ret = FXCollections.observableArrayList();
+
+        while (resultSet.next()) {
             ret.add(getFromRow(resultSet));
         }
 
