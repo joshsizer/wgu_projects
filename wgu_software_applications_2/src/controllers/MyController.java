@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.scene.Scene;
 import main.ApplicationContext;
 
 /**

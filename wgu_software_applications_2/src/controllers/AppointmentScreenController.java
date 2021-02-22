@@ -13,6 +13,10 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+
+/**
+ * Holds the functions for operating the Appointment Screen.
+ */
 public class AppointmentScreenController extends MyController {
 
     /**
@@ -333,7 +337,7 @@ public class AppointmentScreenController extends MyController {
         char c[] = currentMonth.toCharArray();
         c[0] = Character.toUpperCase(c[0]);
         currentMonth = new String(c);
-        currentPeriodLabel.setText("Month: " + currentMonth);
+        currentPeriodLabel.setText("Month: " + currentMonth + " " + currentPeriodStart.getYear());
     }
 
     /**

@@ -11,6 +11,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.SQLException;
 
+
+/**
+ * Holds the functions for operating the Customer Screen.
+ */
 public class CustomerScreenController extends MyController {
 
     /**

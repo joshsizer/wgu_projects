@@ -1,6 +1,5 @@
 package datastructure;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.ConnectionManager;
@@ -8,7 +7,6 @@ import main.ConnectionManager;
 import java.sql.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 
 /**
  * Represents a User in this Application. Mirrors the

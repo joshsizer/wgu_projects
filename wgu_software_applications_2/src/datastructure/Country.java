@@ -1,6 +1,5 @@
 package datastructure;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.ConnectionManager;
@@ -11,7 +10,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 
 /**
  * Represents the Countries in this Application.

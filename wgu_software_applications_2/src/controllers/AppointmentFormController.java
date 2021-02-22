@@ -15,6 +15,9 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Holds the functions for operating the Appointment Form.
+ */
 public class AppointmentFormController extends MyController {
     /**
      * The current appointment being modified, or
@@ -211,6 +214,7 @@ public class AppointmentFormController extends MyController {
         currentAppointment = null;
         try {
             appointmentIdTextField.setText(Integer.toString(Appointment.getNextId()));
+            customerComboBox.setItems(Customer.getAll());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -242,6 +246,7 @@ public class AppointmentFormController extends MyController {
         typeComboBox.getSelectionModel().select(currentAppointment.getType());
         locationTextField.setText(currentAppointment.getLocation());
         try {
+            customerComboBox.setItems(Customer.getAll());
             contactComboBox.getSelectionModel().select(Contact.getById(currentAppointment.getContactId()));
             customerComboBox.getSelectionModel().select(Customer.getById(currentAppointment.getCustomerId()));
             userComboBox.getSelectionModel().select(User.getById(currentAppointment.getUserId()));
@@ -453,11 +458,16 @@ public class AppointmentFormController extends MyController {
         }
 
         for (Appointment app : apps) {
+            if (app.getAppointmentId() == id) {
+                continue;
+            }
             if (app.getCustomerId() == customer.getCustomerId() ) {
-                if ((startDateTime.isAfter(app.getStartZonedDateTime())
-                        && startDateTime.isBefore(app.getEndZonedDateTime()))
-                    || (endDateTime.isAfter(app.getStartZonedDateTime())
-                        && endDateTime.isBefore(app.getEndZonedDateTime()))) {
+                if (((startDateTime.isAfter(app.getStartZonedDateTime().withZoneSameInstant(ZoneId.systemDefault())) || startDateTime.equals(app.getStartZonedDateTime().withZoneSameInstant(ZoneId.systemDefault())))
+                        && startDateTime.isBefore(app.getEndZonedDateTime().withZoneSameInstant(ZoneId.systemDefault())))
+                    || (endDateTime.isAfter(app.getStartZonedDateTime().withZoneSameInstant(ZoneId.systemDefault()))
+                        && endDateTime.isBefore(app.getEndZonedDateTime().withZoneSameInstant(ZoneId.systemDefault())))
+                || (startDateTime.isBefore(app.getStartZonedDateTime().withZoneSameInstant(ZoneId.systemDefault()))
+                        && endDateTime.isAfter(app.getEndZonedDateTime().withZoneSameInstant(ZoneId.systemDefault())))) {
                     errorMessage += "Error: selected dates and times causes customer to have overlapping appointments.\n";
                     break;
                 }

@@ -30,8 +30,6 @@ public class Main extends Application {
         //TimeZone.setDefault( TimeZone.getTimeZone( "America/Los_Angeles" ));
         //TimeZone.setDefault( TimeZone.getTimeZone( "Asia/Singapore" ));
 
-        //Locale.setDefault(Locale.forLanguageTag("fr"));
-
         FXMLLoader loginFormLoader = new FXMLLoader(getClass().getResource("../fxml/login_form.fxml"));
         Scene loginFormScene = new Scene(loginFormLoader.load());
         LoginFormController loginFormController = (LoginFormController) loginFormLoader.getController();
@@ -79,13 +77,6 @@ public class Main extends Application {
         for (ApplicationScreen appScreen : context.getHashMap().values()) {
             appScreen.getController().setApplicationContext(context);
         }
-
-        ObservableList<Contact> flds = Contact.getAll();
-        for (Contact fld : flds) {
-            System.out.println(fld);
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("UTC"));
 
         primaryStage.setTitle("Scheduling Software");
         primaryStage.setScene(appointmentFormController.getApplicationContext().getAppScreen("login_form").getScene());

@@ -11,6 +11,10 @@ import java.sql.SQLException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+
+/**
+ * Holds the functions for operating the Customer Form.
+ */
 public class CustomerFormController extends MyController {
 
     /**

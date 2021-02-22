@@ -11,6 +11,10 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
+
+/**
+ * Holds the functions for operating the Home Screen.
+ */
 public class HomeScreenController extends MyController {
 
     /**

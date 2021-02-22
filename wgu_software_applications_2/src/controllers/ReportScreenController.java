@@ -232,7 +232,7 @@ public class ReportScreenController extends MyController {
      * by its start ZonedDateTime. The lambda is used here so we don't
      * need extra syntax, like the "new" statment or extra block levels (curly braces).
      */
-    private void refreshAppointmentTable() {
+    public void refreshAppointmentTable() {
         ObservableList<Appointment> appsToDisplay = FXCollections.observableArrayList();
         Contact selectedContact = contactComboBox.getSelectionModel().getSelectedItem();
         try {

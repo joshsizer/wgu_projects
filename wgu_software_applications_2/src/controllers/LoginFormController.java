@@ -14,8 +14,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 
+
 /**
- * The Controller class for the Login Form.
+ * Holds the functions for operating the Login Form.
  */
 public class LoginFormController extends MyController {
 

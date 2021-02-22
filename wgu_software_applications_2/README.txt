@@ -4,7 +4,7 @@ Purpose: To keep track of and modify Customers and their respective Appointments
 Author: Joshua Sizer
     --> Email: jsizer@wgu.edu
 
-Application Version:    1.0.0
+Application Version:    1.0.1
 Application Date:       2/21/2021
 
 Versions:
