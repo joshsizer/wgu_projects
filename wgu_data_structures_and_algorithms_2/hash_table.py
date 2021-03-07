@@ -87,6 +87,20 @@ class HashTable():
             if htElement.key == key:
                 list_at_index.remove(htElement)
                 return
+    
+    def resize(self, new_size):
+        if new_size < 1:
+            return
+        new_table = []
+        for i in range(new_size):
+            new_table.append([])
+
+        old_table = self.table
+        self.table = new_table
+        for bucket in old_table:
+            for item in bucket:
+                self.put(item.key, item.value)
+        
 
     def __iter__(self):
         return HashTableIterator(self)
@@ -116,6 +130,20 @@ def test():
     hashTable.remove(anotherKey)
     print(hashTable.get("My name is"))
     print(hashTable.get(anotherKey))
+
+    hashTable.put("My name is", "Slim Shady")
+    hashTable.put(anotherKey, 400)
+    print(hashTable.get("My name is"))
+    print(hashTable.get(anotherKey))
+
+    print(f'size: {len(hashTable.table)}')
+    print("resizing to 31")
+    hashTable.resize(31)
+    print(f'size: {len(hashTable.table)}')
+    
+    print(hashTable.get("My name is"))
+    print(hashTable.get(anotherKey))
+    
 
 if __name__ == "__main__":
     test()

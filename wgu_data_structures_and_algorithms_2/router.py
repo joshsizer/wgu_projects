@@ -95,7 +95,7 @@ def get_package_status(graph, start_vertex, packages, end_time):
             for package in package_at_address:
                 all_packages.append(package)
 
-    return all_packages
+    return all_packages, total_distance
 
 
 def load_truck(arrival_event, packages, max_early_deadlines):
@@ -124,7 +124,6 @@ def load_truck(arrival_event, packages, max_early_deadlines):
         if package.package_id == 9 and arrival_event.time < datetime.now().replace(hour=10, minute=20, second=0, microsecond=0):
             continue
         elif package.package_id == 9:
-            now = datetime.now()
             package.address = "410 S State St"
             package.zip = "84111"
 
@@ -242,57 +241,44 @@ def generate_next_arrival_event(arrival_event, graph, start_vertex, packages_lef
     urgent_set.sort(key=lambda x: x[1].delivery_deadline_for_sort())
     non_urgent_set.sort(key=lambda x: x[1].delivery_deadline_for_sort())
 
-    if len(urgent_set) > 0:
+    if len(urgent_set) <= 0:
+        urgent_set = non_urgent_set
         
-        top_of_urgent_set = urgent_set[0]
-        minimum_vertex = top_of_urgent_set[0]
-        minimum_distance = graph.weights.get((arrival_event.vertex, minimum_vertex))
+    top_of_urgent_set = urgent_set[0]
+    minimum_vertex = top_of_urgent_set[0]
+    minimum_distance = graph.weights.get((arrival_event.vertex, minimum_vertex))
 
-        for i in range(1, len(urgent_set)):
-            if urgent_set[i][1].delivery_deadline == top_of_urgent_set[1].delivery_deadline:
-                distance = graph.weights.get((arrival_event.vertex, urgent_set[i][0]))
-                if distance < minimum_distance:
-                    minimum_distance = distance
-                    minimum_vertex = urgent_set[i][0]
+    for i in range(1, len(urgent_set)):
+        if urgent_set[i][1].delivery_deadline == top_of_urgent_set[1].delivery_deadline:
+            distance = graph.weights.get((arrival_event.vertex, urgent_set[i][0]))
+            if distance < minimum_distance:
+                minimum_distance = distance
+                minimum_vertex = urgent_set[i][0]
 
-        new_arrival_time = calculate_next_time(arrival_event.time, minimum_distance)
-        return minimum_distance, ArrivalEvent(new_arrival_time, arrival_event.truck, minimum_vertex)
-    else:
-        top_of_non_urgent_set = non_urgent_set[0]
-        minimum_vertex = top_of_non_urgent_set[0]
-        minimum_distance = graph.weights.get((arrival_event.vertex, minimum_vertex)) 
+    new_arrival_time = calculate_next_time(arrival_event.time, minimum_distance)
+    return minimum_distance, ArrivalEvent(new_arrival_time, arrival_event.truck, minimum_vertex)
 
-        for i in range(1, len(urgent_set)):
-            if non_urgent_set[i][1].delivery_deadline == top_of_non_urgent_set[1].delivery_deadline:
-                distance = graph.weights.get((arrival_event.vertex, non_urgent_set[i][0]))
-                if distance < minimum_distance:
-                    minimum_distance = distance
-                    minimum_vertex = non_urgent_set[i][0]
-
-        new_arrival_time = calculate_next_time(arrival_event.time, minimum_distance)
-        return minimum_distance, ArrivalEvent(new_arrival_time, arrival_event.truck, minimum_vertex)
-
-    for neighbor in graph.edges.get(arrival_event.vertex):
-        # grab the packages needing to be delivered to this neighbor vertex
-        neighbor_package = arrival_event.truck.packages.get(neighbor.value.address)
+    # for neighbor in graph.edges.get(arrival_event.vertex):
+    #     # grab the packages needing to be delivered to this neighbor vertex
+    #     neighbor_package = arrival_event.truck.packages.get(neighbor.value.address)
         
-        # if we have packages that had to be delivered to this neighbor vertex
-        if neighbor_package is not None:
-            # iterate through them
-            for package in neighbor_package:
-                # if they are still needing to be delivered
-                if package.delivery_status == "en route":
-                    if len(urgent_set) > 0 and package != urgent_set[0][1]:
-                        continue
+    #     # if we have packages that had to be delivered to this neighbor vertex
+    #     if neighbor_package is not None:
+    #         # iterate through them
+    #         for package in neighbor_package:
+    #             # if they are still needing to be delivered
+    #             if package.delivery_status == "en route":
+    #                 if len(urgent_set) > 0 and package != urgent_set[0][1]:
+    #                     continue
 
-                    # grab the distance between this vertex and the next one
-                    distance = graph.weights.get((arrival_event.vertex, neighbor))
-                    # calculate the time the truck will arrive there
-                    new_arrival_time = calculate_next_time(arrival_event.time, distance)
-                    # create an event for when the truck arrives
-                    my_print(f' traveling to {neighbor.value.address} [=============] ETA @ {new_arrival_time}')
+    #                 # grab the distance between this vertex and the next one
+    #                 distance = graph.weights.get((arrival_event.vertex, neighbor))
+    #                 # calculate the time the truck will arrive there
+    #                 new_arrival_time = calculate_next_time(arrival_event.time, distance)
+    #                 # create an event for when the truck arrives
+    #                 my_print(f' traveling to {neighbor.value.address} [=============] ETA @ {new_arrival_time}')
                     
-                    return distance, ArrivalEvent(new_arrival_time, arrival_event.truck, neighbor)
+    #                 return distance, ArrivalEvent(new_arrival_time, arrival_event.truck, neighbor)
 
     return 0, None
 
@@ -342,6 +328,7 @@ def calculate_next_time(start_time, distance):
 
     return start_time + timedelta(minutes=time_in_minutes)
 
+
 def test():
     current_time = datetime.now().replace(hour=8, minute=00, second=0, microsecond=0)
 
@@ -364,7 +351,7 @@ def test():
 
 
 def my_print(to_print, end="\n"):
-    debug = True
+    debug = False
     if debug:
         print(to_print, end=end)
 
