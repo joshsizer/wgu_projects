@@ -6,30 +6,42 @@ class HashTableElement():
         self.key = key
         self.value = value
 
+# An iterator class that holds a HashTable
+# and the current location in the table.
 class HashTableIterator():
     def __init__(self, hash_table, type="values"):
         self.hash_table = hash_table
         self.current_bucket = 0
         self.current_bucket_index = 0
         self.type = type
-
+    
+    # the iterator for this class is itself
     def __iter__(self):
         return self
 
+    # returns the next value in the hashtable
     def __next__(self):
+        # find the next non-empty bucket
         while  self.current_bucket < len(self.hash_table.table) and len(self.hash_table.table[self.current_bucket]) == 0:
             self.current_bucket = self.current_bucket + 1
             self.current_bucket_index = 0
 
+        # stop iterating if we've searched through the entire hashtable
         if self.current_bucket >= len(self.hash_table.table):
             raise StopIteration
 
+        # grab the HashTableElement to return
         to_ret = self.hash_table.table[self.current_bucket][self.current_bucket_index]
+
+        # set the next index of the next element to return
         self.current_bucket_index = self.current_bucket_index + 1
+
+        # check that the index of the next element is within bounds 
         if (self.current_bucket_index >= len(self.hash_table.table[self.current_bucket])):
             self.current_bucket = self.current_bucket + 1
             self.current_bucket_index = 0
 
+        # modify what to return based on what type of iterator this is
         if self.type == "values":
             return to_ret.value
         elif self.type == "items":
@@ -43,7 +55,9 @@ class HashTable():
         self.table = []
         for i in range(init_size):
             self.table.append([])
+        self.num_elements = 0
 
+    # insert an item into this HashTable
     def put(self, key, value):
         # remove the duplicate key
         if self.get(key) != None:
@@ -58,8 +72,11 @@ class HashTable():
 
         # insert this value at the appropriate index
         self.table[index].append(to_insert)
+        self.num_elements += 1
 
+        self.check_for_resize()
 
+    # Retrieve an item from this HashTable
     def get(self, key):
         # get the array index where this key's item should be held
         index = hash(key) % len(self.table)
@@ -75,6 +92,7 @@ class HashTable():
         # else return None
         return None
 
+    # Remove an item from this HashTable
     def remove(self, key):
         # get the array index where this key's item should be held
         index = hash(key) % len(self.table)
@@ -86,8 +104,10 @@ class HashTable():
         for htElement in list_at_index:
             if htElement.key == key:
                 list_at_index.remove(htElement)
+                self.num_elements -= 1
                 return
     
+    # Resize this HashTable
     def resize(self, new_size):
         if new_size < 1:
             return
@@ -100,17 +120,27 @@ class HashTable():
         for bucket in old_table:
             for item in bucket:
                 self.put(item.key, item.value)
-        
 
+    # resize the hashtable if the number of elements
+    # being stored is greater than 0.8 of the table's
+    # size. Change its size to be 1.7 times greater.
+    def check_for_resize(self):
+        if self.num_elements > 0.8 * len(self.table):
+            self.resize(int(len(self.table) * 1.7))
+        
+    # Return a HashTableIterator that will return values
     def __iter__(self):
         return HashTableIterator(self)
 
+    # Return a HashTableIterator that returns a tuple (key, value)
     def items(self):
         return HashTableIterator(self, type="items")
 
+    # Return a HashTableIterator that returns keys
     def keys(self):
         return HashTableIterator(self, type="keys")
 
+    # Returns a HashTableIterator that will return values
     def values(self):
         return self.__iter__()
 

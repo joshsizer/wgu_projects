@@ -6,17 +6,21 @@ from package import Package
 from graph import Graph, Vertex
 from hash_table import HashTable
 
+# the filename/location of each key file
 packages_filename = "data/packages.csv"
 places_filename = "data/places.csv"
 distances_filename = "data/distances.csv"
 
 # returns a list of packages for routing
 def get_packages():
+    # get the csv file as a 2D array
     csv = get_2d_csv(packages_filename)
     packages = []
     count = 0
 
+    # collect each package
     for row in csv:
+        # skip over the first row, which have headers
         if count != 0:
             package_id = int(row[0])
             address = row[1]
@@ -30,6 +34,7 @@ def get_packages():
             required_truck = -1
             deliver_with = []
 
+            # handle special notes
             if "Delayed on flight" in special_notes:
                 arrival_time = special_notes[-7:]
 
@@ -42,6 +47,7 @@ def get_packages():
                 deliver_with.append(req_t_1)
                 deliver_with.append(req_t_2)
 
+            # convert the arrival_time and delivery deadline to a datetime object
             now = datetime.now()
             arrival_time_obj = datetime.strptime(arrival_time, '%I:%M %p')
             if delivery_deadline == "EOD":
@@ -52,6 +58,7 @@ def get_packages():
 
             arrival_time_obj = arrival_time_obj.replace(year=now.year, month= now.month, day=now.day)
                 
+            # create a package object and add it to the packages list
             packages.append(Package(package_id, address, city,
                                      state, zip, delivery_deadline_obj,
                                      mass, special_notes, arrival_time_obj,
@@ -61,16 +68,21 @@ def get_packages():
     
     return packages
 
+# return a list of places for contructing the places graph
 def get_places():
+    # get the places (delivery locations) as a 2D array
     csv = get_2d_csv(places_filename)
     places = []
     
     count = 0
+    # collect each place
     for row in csv:
+        # skip over the first row witch have headers
         if count != 0:
             name = row[0]
             address = row[1]
 
+            # normalize address and name
             if "\n" in name:
                 name = name.replace("\n", "")
                 
@@ -84,6 +96,7 @@ def get_places():
             
             address = re.sub(regex, "", address)
 
+            # create a Place object and add it to the places list
             places.append(Place(name, address))
 
         count = count + 1
@@ -144,7 +157,7 @@ def get_places_graph():
 
     return graph
         
-
+# reads through a csv file and returns it as a 2D array
 def get_2d_csv(filename):
     with open(filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=",")
