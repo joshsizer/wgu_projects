@@ -1,0 +1,8 @@
+﻿  main.cpp
+  roster.cpp
+C:\Users\Joshua\source\repos\ScriptingAndProgrammingApplications\ScriptingAndProgrammingApplications\roster.cpp(83,21): warning C4018: '<': signed/unsigned mismatch
+  student.cpp
+  Generating Code...
+C:\Users\Joshua\source\repos\ScriptingAndProgrammingApplications\ScriptingAndProgrammingApplications\student.cpp(118): warning C4715: 'Student::degree_program_from_string': not all control paths return a value
+C:\Users\Joshua\source\repos\ScriptingAndProgrammingApplications\ScriptingAndProgrammingApplications\student.cpp(130): warning C4715: 'Student::string_from_degree_program': not all control paths return a value
+  ScriptingAndProgrammingApplications.vcxproj -> C:\Users\Joshua\source\repos\ScriptingAndProgrammingApplications\Debug\ScriptingAndProgrammingApplications.exe
