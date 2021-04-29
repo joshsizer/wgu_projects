@@ -5,24 +5,23 @@ Additionally, users can view interesting reports
 created from the Appointment and Customer data.
 The application connects to a remote MySQL
 database in the backend.
-## FULL GUI
 
+## FULL GUI
 The application features a full GUI written with
 JavaFX. Improvements to this app could include a
 GUI layed out in a relative, rather than absolute fashion.
 
 ## SQL Backend
-
 To query Appointment and Customer information, the
 app connects to a MySQL database using the JDBC
 protocol. 
 
-# Report for class assignment
+## Report for class assignment
 Title: Scheduling and Reporting Application
 Purpose: To keep track of and modify Customers and their respective Appointments.
 
 Author: Joshua Sizer
-    --> Email: jsizer@wgu.edu
+    --> Email: redacted
 
 Application Version:    1.0.1
 Application Date:       2/21/2021
