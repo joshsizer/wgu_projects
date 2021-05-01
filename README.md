@@ -42,5 +42,5 @@ and products, and search via their names.
 
 ## Scripting and Programming Applications: Student Roster
 
-A simple script that can read in a student roster
+A simple script that takes in a student roster
 and perform analysis.
